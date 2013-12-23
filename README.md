@@ -1,0 +1,28 @@
+jsTag
+=====
+Open source project for editing tags (aka tokenizer) based on angularJS.
+
+Demo
+----
+Available here
+
+Usage
+-----
+See demo for usage.
+
+About
+-----
+jsTag is an open source project for editing tags (aka tokenizer) based on angularJS.
+The project was created by Eran Hirsch for inner purpose.
+Any contribution to the project is more than welcome.
+
+Why jsTag?
+----------
+Finally a real MVC library for editing tags (aka tokenizer)! Pure use of angularJS has it's benefits.
+ * It can be tested (no unit tests yet, but it will have).
+ * Working with models is great, see demo for example.
+ * Maintainable code.
+ * Easy to customize!
+ 
+ 
+Hope you enjoy, feedback is more than welcome.

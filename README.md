@@ -25,4 +25,6 @@ Finally a real MVC library for editing tags (aka tokenizer)! Pure use of angular
  * Easy to customize!
  
  
+ 
+
 Hope you enjoy, feedback is more than welcome.

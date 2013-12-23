@@ -4,7 +4,7 @@ Open source project for editing tags (aka tokenizer) based on angularJS.
 
 Demo
 ----
-Available here
+Available [here](http://eranhirs.github.io/jsTag/ "jsTag Demo").
 
 Usage
 -----

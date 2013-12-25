@@ -1,6 +1,6 @@
 var jsTag = angular.module('jsTag');
 
-jsTag.controller('MainCtrl', ['$scope', 'InputHandler', 'TagsHandler', 'jsTagDefaults', function($scope, InputHandler, TagsHandler, jsTagDefaults) {
+jsTag.controller('JSTagMainCtrl', ['$scope', 'InputHandler', 'TagsHandler', 'jsTagDefaults', function($scope, InputHandler, TagsHandler, jsTagDefaults) {
 	// Parse user options and merge with defaults
 	var userOptions = {};
 	try {

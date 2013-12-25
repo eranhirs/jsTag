@@ -4,7 +4,6 @@ var jsTag = angular.module('jsTag');
 jsTag.directive('jsTag', function() {
 	return {
 		restrict: 'E',
-		replace: true,
 		templateUrl: function($element, $attrs, jsTagDefaults) {
 			var jsTagOptions = $attrs.jsTagOptions;
 		

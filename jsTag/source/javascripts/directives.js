@@ -14,12 +14,7 @@ jsTag.directive('jsTag', function() {
 			} else {
 				return 'jsTag/source/templates/default/js-tag.html';
 			}
-		},
-		controller: ['$scope', '$attrs', function ($scope, $attrs) {
-			// Passes to the actual controller the user options from the html.
-			// TODO: Pretty much a hack, find a better solution.
-			$scope.userOptions = $attrs.jsTagOptions;
-		}]
+		}
 	}
 });
 

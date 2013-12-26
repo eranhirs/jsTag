@@ -78,20 +78,20 @@
 						After adding jsTag as a depedency, you can easily achieve:
 						<section class="bs-example">
 							<section id="basicDemo">
-								<js-tag></js-tag>
+								<js-tag ng-controller='JSTagMainCtrl'></js-tag>
 							</section>
 							<section class="highlight">
 								<pre>
-									<code class="html"><span class="nt">&lt;js-tag</span><span class="na"></span><span class="s"></span><span class="nt">&gt;</span><span class="nt">&lt;/js-tag&gt;</span>
+									<code class="html"><span class="nt">&lt;js-tag</span> <span class="na">ng-controller='</span><span class="s">JSTagMainCtrl</span><span class="na">'</span><span class="nt">&gt;</span><span class="nt">&lt;/js-tag&gt;</span>
 									</code>
 								</pre>
 							</section>
 						</section>
-						<h3>Advanced</h3>
+						<h3>Customized</h3>
 						Customize jsTag as follows:
 						<section class="bs-example">
-							<section id="advancedDemo">
-								<js-tag js-tag-options='{
+							<section id="customizedDemo">
+								<js-tag ng-controller='JSTagMainCtrl' js-tag-options='{
 											"texts": {
 												"inputPlaceHolder": "Type text here"
 											},
@@ -100,7 +100,7 @@
 							</section>
 							<section class="highlight">
 								<pre>
-									<code class="html"><span class="nt">&lt;js-tag</span> <span class="na">js-tag-options='</span><span class="s">{
+									<code class="html"><span class="nt">&lt;js-tag</span> <span class="na">ng-controller='</span><span class="s">JSTagMainCtrl</span><span class="na">'</span> <span class="na">js-tag-options='</span><span class="s">{
 	"texts": {
 		"inputPlaceHolder": "Type text here"
 	},
@@ -109,6 +109,26 @@
 									</code>
 								</pre>
 							</section>
+						</section>
+						<h3>Advanced</h3>
+						Why JSTagMainCtrl is not inside the template?</br>
+						ng-controller='JSTagMainCtrl" can be placed inside the template, allowing you to write less code.<br/>
+						The reason it's outside the template is to let you have <em>more control</em> of the tags.<br/><br/>
+						Let's see an advanced use:
+						<section class="bs-example">
+							<div id="usingControllerDemo" ng-controller='JSTagMainCtrl'>
+								<js-tag></js-tag>
+								Number of tags: {{tagsCollection.getNumberOfTags()}}
+							</div>
+						</section>
+						<section class="highlight">
+							<pre>
+								<code class="html" ng-non-bindable><span class="nt">&lt;div</span> <span class="na">ng-controller='</span><span class="s">JSTagMainCtrl</span><span class="na">'</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;js-tag</span><span class="nt">&gt;</span><span class="nt">&lt;/js-tag&gt;</span>
+	Number of tags: {{tagsCollection.getNumberOfTags()}}
+<span class="nt">&lt;/div&gt;</span>
+								</code>
+							</pre>
 						</section>
 					</section>
 					<section>

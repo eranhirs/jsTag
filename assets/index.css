@@ -22,6 +22,11 @@ body {
 	margin-top: 0px;
 }
 
+em {
+	font-weight: bold;
+	font-style: initial;
+}
+
 /* Sub title */
 .page-header p {
 	color: #9294C2;

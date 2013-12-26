@@ -36,6 +36,11 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
 		delete this.tags[tagIndex];
 	}
 
+	// Returns the number of tags in collection
+	JSTagsCollection.prototype.getNumberOfTags = function() {
+		return getNumberOfProperties(this.tags);
+	}
+	
 	// Returns the previous tag before the tag received as input
 	// Returns same tag if it's the first
 	JSTagsCollection.prototype.getPreviousTag = function(tag) {

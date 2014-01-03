@@ -14,8 +14,6 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
 		
 		this.unsetActiveTags();
 		this.unsetEditedTag();
-		
-		// TODO: Maybe use $rootScope.$new to make a scope for this model and use it
 	}
 	
 	// *** Methods *** //

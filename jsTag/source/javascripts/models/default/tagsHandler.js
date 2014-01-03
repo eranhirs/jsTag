@@ -4,8 +4,17 @@ var jsTag = angular.module('jsTag');
 jsTag.factory('TagsHandler', ['JSTag', 'JSTagsCollection', function(JSTag, JSTagsCollection) {
 	// Constructor
 	function TagsHandler(options) {
-		var defaultTags = options.defaultTags;
-		this.tagsCollection = new JSTagsCollection(defaultTags);
+		var tags = options.tags;
+		
+		// Received ready JSTagsCollection
+		if (tags && tags.__proto__ === JSTagsCollection.prototype) {
+			this.tagsCollection = tags;
+		}
+		// Received array with default tags or nothing
+		else {
+			var defaultTags = options.defaultTags;
+			this.tagsCollection = new JSTagsCollection(defaultTags);
+		}
 		this.shouldBlurActiveTag = true;
 	}
 	

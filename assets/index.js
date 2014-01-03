@@ -1,8 +1,5 @@
 var demoApp = angular.module('demoApp', ['jsTag']);
 
-demoApp.controller('BasicController', ['$scope', function($scope) {
-}]);
-
 demoApp.controller('MoreControlController', ['$scope', 'JSTagsCollection', function($scope, JSTagsCollection) {
 	// Build JSTagsCollection
 	$scope.tags = new JSTagsCollection(["jsTag", "angularJS"]);

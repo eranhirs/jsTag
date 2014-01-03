@@ -10,7 +10,7 @@ jsTag.factory('TagsHandler', ['JSTag', 'JSTagsCollection', function(JSTag, JSTag
 		if (tags && tags.__proto__ === JSTagsCollection.prototype) {
 			this.tagsCollection = tags;
 		}
-		// Received array with default tags or nothing
+		// Received array with default tags or did not receive tags
 		else {
 			var defaultTags = options.defaultTags;
 			this.tagsCollection = new JSTagsCollection(defaultTags);

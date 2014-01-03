@@ -6,7 +6,7 @@ jsTag.factory('InputHandler', ['$filter', function($filter) {
 	// Constructor
 	function InputHandler(options) {
 		this.input = "";
-		this.isWaitingForInput = true;
+		this.isWaitingForInput = options.autoFocus || false;
 		this.options = options;
 	}
 	

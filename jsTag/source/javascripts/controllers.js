@@ -4,7 +4,7 @@ jsTag.controller('JSTagMainCtrl', ['$attrs', '$scope', 'InputHandler', 'TagsHand
 	// Parse user options and merge with defaults
 	var userOptions = {};
 	try {
-		userOptions = JSON.parse($attrs.jsTagOptions);
+		userOptions = $scope.$eval($attrs.jsTagOptions);
 	} catch(e) {
 		console.log("jsTag Error: Invalid user options, using defaults only");
 	}

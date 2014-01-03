@@ -4,6 +4,8 @@ var jsTag = angular.module('jsTag');
 jsTag.directive('jsTag', function() {
 	return {
 		restrict: 'E',
+		scope: true,
+		controller: 'JSTagMainCtrl',
 		templateUrl: function($element, $attrs, jsTagDefaults) {
 			var jsTagOptions = $attrs.jsTagOptions;
 		

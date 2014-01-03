@@ -69,7 +69,7 @@
 						<section class="bs-example">
 							<section class="highlight">
 								<pre>
-									<code class="html"><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'demoApp'</span><span class="p">, [</span><span class="s1">'jsTag'</span><span class="p">]);</span>
+									<code class="js"><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'demoApp'</span><span class="p">, [</span><span class="s1">'jsTag'</span><span class="p">]);</span>
 									</code>
 								</pre>
 							</section>
@@ -77,58 +77,98 @@
 						<h3>Basic</h3>
 						After adding jsTag as a depedency, you can easily achieve:
 						<section class="bs-example">
-							<section id="basicDemo">
-								<js-tag ng-controller='JSTagMainCtrl'></js-tag>
+							<section id="basicDemo" ng-controller="BasicController">
+								<js-tag></js-tag>
 							</section>
 							<section class="highlight">
 								<pre>
-									<code class="html"><span class="nt">&lt;js-tag</span> <span class="na">ng-controller='</span><span class="s">JSTagMainCtrl</span><span class="na">'</span><span class="nt">&gt;</span><span class="nt">&lt;/js-tag&gt;</span>
+									<code class="html"><span class="nt">&lt;js-tag</span><span class="nt">&gt;</span><span class="nt">&lt;/js-tag&gt;</span>
 									</code>
 								</pre>
 							</section>
 						</section>
-						<h3>Customized</h3>
+						<h3>Customized #1</h3>
 						Customize jsTag as follows:
 						<section class="bs-example">
-							<section id="customizedDemo">
-								<js-tag ng-controller='JSTagMainCtrl' js-tag-options='{
+							<section id="inlineCustomizedDemo">
+								<js-tag js-tag-options='{
 											"texts": {
 												"inputPlaceHolder": "Type text here"
 											},
-											"defaultTags": ["jsTag", "angularJS"]
+											"defaultTags": ["Default Tag #1", "Default Tag #2"]
 								}'></js-tag>
 							</section>
 							<section class="highlight">
 								<pre>
-									<code class="html"><span class="nt">&lt;js-tag</span> <span class="na">ng-controller='</span><span class="s">JSTagMainCtrl</span><span class="na">'</span> <span class="na">js-tag-options='</span><span class="s">{
+									<code class="html"><span class="nt">&lt;js-tag</span> <span class="na">js-tag-options='</span><span class="s">{
 	"texts": {
 		"inputPlaceHolder": "Type text here"
 	},
-	"defaultTags": ["jsTag", "angularJS"]
+	"defaultTags": ["Default Tag #1", "Default Tag #2"]
 }</span><span class="na">'</span><span class="nt">&gt;</span><span class="nt">&lt;/js-tag&gt;</span>
 									</code>
 								</pre>
 							</section>
+							<h3>Customized #2</h3>
+							We can also customize our jsTag using a controller:
+							<section id="customizedDemo">
+								<section ng-controller="CustomizedController">
+									<js-tag js-tag-options="jsTagOptions"></js-tag>
+								</section>
+							</section>
+							<section class="highlight">
+								HTML
+								<pre>
+									<code class="html" ng-non-bindable><span class="nt">&lt;section</span> <span class="na">ng-controller=</span><span class="s">&quot;CustomizedController&quot;</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;js-tag</span> <span class="na">js-tag-options=</span><span class="s">&quot;jsTagOptions&quot;</span><span class="nt">&gt;</span><span class="nt">&lt;/js-tag&gt;</span>
+<span class="nt">&lt;/section&gt;</span>
+									</code>
+								</pre>
+								Javascript
+								<pre>
+									<code class="html"><span class="nx">demoApp</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">&#39;CustomizedController&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;$scope&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// Export jsTags options</span>
+	<span class="nx">$scope</span><span class="p">.</span><span class="nx">jsTagOptions</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="s2">&quot;texts&quot;</span><span class="o">:</span> <span class="p">{</span>
+			<span class="s2">&quot;inputPlaceHolder&quot;</span><span class="o">:</span> <span class="s2">&quot;Type text here&quot;</span>
+		<span class="p">},</span>
+		<span class="s2">&quot;defaultTags&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;Default Tag #1&quot;</span><span class="p">,</span> <span class="s2">&quot;Default Tag #2&quot;</span><span class="p">]</span>
+	<span class="p">};</span>
+<span class="p">}]);</span></code>
+								</pre>
+							</section>
 						</section>
-						<h3>Advanced</h3>
-						Why JSTagMainCtrl is not inside the template?</br>
-						ng-controller='JSTagMainCtrl" can be placed inside the template, allowing you to write less code.<br/>
-						The reason it's outside the template is to let you have <em>more control</em> over the tags.<br/><br/>
-						Let's see an advanced use:
-						<section class="bs-example">
-							<div id="usingControllerDemo" ng-controller='JSTagMainCtrl'>
-								<js-tag></js-tag>
-								Number of tags: {{tagsCollection.getNumberOfTags()}}
-							</div>
-						</section>
-						<section class="highlight">
-							<pre>
-								<code class="html" ng-non-bindable><span class="nt">&lt;div</span> <span class="na">ng-controller='</span><span class="s">JSTagMainCtrl</span><span class="na">'</span><span class="nt">&gt;</span>
-	<span class="nt">&lt;js-tag</span><span class="nt">&gt;</span><span class="nt">&lt;/js-tag&gt;</span>
-	Number of tags: {{tagsCollection.getNumberOfTags()}}
-<span class="nt">&lt;/div&gt;</span>
-								</code>
-							</pre>
+						<h3>More Control</h3>
+						You want more control over your tags? Tell it to the directive!<br/>
+						In the following example we initialize our own JSTagsCollection to have full control:
+						<section class="bs-example" id="moreControlDemo">
+							<section ng-controller="MoreControlController">
+								<js-tag js-tag-options="jsTagOptions"></js-tag>
+								Number of tags: {{tags.getNumberOfTags()}}
+							</section>
+							<section class="highlight">
+								HTML
+								<pre>
+									<code class="html" ng-non-bindable><span class="nt">&lt;section</span> <span class="na">ng-controller=</span><span class="s">&quot;MoreControlController&quot;</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;js-tag</span> <span class="na">js-tag-options=</span><span class="s">&quot;jsTagOptions&quot;</span><span class="nt">&gt;</span><span class="nt">&lt;/js-tag&gt;</span>
+	Number of tags: {{tags.getNumberOfTags()}}
+<span class="nt">&lt;/section&gt;</span>
+									</code>
+								</pre>							
+								Javascript
+								<pre>
+									<code class="javascript"><span class="nx">demoApp</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">&#39;MoreControlController&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;$scope&#39;</span><span class="p">,</span> <span class="s1">&#39;JSTagsCollection&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">JSTagsCollection</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// Build JSTagsCollection</span>
+	<span class="nx">$scope</span><span class="p">.</span><span class="nx">tags</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">JSTagsCollection</span><span class="p">([</span><span class="s2">&quot;jsTag&quot;</span><span class="p">,</span> <span class="s2">&quot;angularJS&quot;</span><span class="p">]);</span>
+	
+	<span class="c1">// Export jsTags options, inlcuding our own tags object</span>
+	<span class="nx">$scope</span><span class="p">.</span><span class="nx">jsTagOptions</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="s2">&quot;tags&quot;</span><span class="o">:</span> <span class="nx">$scope</span><span class="p">.</span><span class="nx">tags</span>
+	<span class="p">};</span>
+<span class="p">}]);</span>
+</code>
+								</pre>
+							</section>
 						</section>
 					</section>
 					<section>

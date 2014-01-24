@@ -1,1 +1,0 @@
-var jsTag = angular.module('jsTag');

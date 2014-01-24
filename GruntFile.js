@@ -22,24 +22,28 @@ module.exports = function(grunt) {
 			}
 		},
 		concat: {
-			options: {
-				banner: '/************************************************\n' +
-					'* jsTag JavaScript Library - Editing tags based on angularJS \n' +
-                    '* Git: https://github.com/eranhirs/jsTag/tree/master\n' +
-                    '* License: MIT (http://www.opensource.org/licenses/mit-license.php)\n' +
-                    '* Compiled At: <%= grunt.template.today("mm/dd/yyyy HH:MM") %>\n' +
-					'**************************************************/\n' +
-					'\'use strict\';\n',
-				footer: '\n\n'
-			},
-			version: {
+			versionJS: {
+				options: {
+					banner: '/************************************************\n' +
+						'* jsTag JavaScript Library - Editing tags based on angularJS \n' +
+						'* Git: https://github.com/eranhirs/jsTag/tree/master\n' +
+						'* License: MIT (http://www.opensource.org/licenses/mit-license.php)\n' +
+						'* Compiled At: <%= grunt.template.today("mm/dd/yyyy HH:MM") %>\n' +
+						'**************************************************/\n' +
+						'\'use strict\';\n',
+					footer: '\n\n'
+				},
 				src: ['<%= srcFiles %>'],
 				dest: '<%= debugFilePath%>'
+			},
+			versionCSS: {
+				src: ['jsTag/source/stylesheets/js-tag.css'],
+				dest: 'jsTag/compiled/<%= pkg.name %>-<%= pkg.version %>.css'
 			}
 		},
 		uglify: {
-			version: {
-				src: '<%= debugFilePath%>',
+			versionJS: {
+				src: ['<%= debugFilePath%>'],
 				dest: 'jsTag/compiled/<%= pkg.name %>-<%= pkg.version %>.min.js'
 			}
 		},
@@ -57,5 +61,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 
 	// Build task
-	grunt.registerTask('version', ['ngtemplates', 'concat:version', 'uglify:version', 'clean']);
+	grunt.registerTask('version', ['ngtemplates', 'concat:versionCSS', 'concat:versionJS', 'uglify:versionJS', 'clean']);
 };

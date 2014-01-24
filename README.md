@@ -13,7 +13,7 @@ See demo for usage.
 About
 -----
 jsTag is an open source project for editing tags (aka tokenizer) based on pure angularJS.
-The project was created by Eran Hirsch for inner purpose.
+The project was created by eranhirs for inner purpose.
 Any contribution to the project is more than welcome.
 
 Why jsTag?

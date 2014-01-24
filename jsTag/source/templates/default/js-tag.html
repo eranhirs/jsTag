@@ -13,7 +13,7 @@
 				ng-dblclick="tagsHandler.tagDblClicked(this.tag)">
 				{{tag.value}}
 			</span>
-			<span class="remove-button" ng-click="tagsCollection.removeTag(this.tag.id)">×</span>
+			<span class="remove-button" ng-click="tagsCollection.removeTag(this.tag.id)">{{options.texts.removeSymbol}}</span>
 		</span>
 		<input
 			ng-switch-when="true"

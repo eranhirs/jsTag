@@ -1,27 +1,19 @@
 var jsTag = angular.module('jsTag');
 
 // TODO: Maybe add A to 'restrict: E' for support in IE 8?
-jsTag.directive('jsTag', function() {
+jsTag.directive('jsTag', ['$templateCache', function($templateCache) {
 	return {
 		restrict: 'E',
 		scope: true,
 		controller: 'JSTagMainCtrl',
 		templateUrl: function($element, $attrs, jsTagDefaults) {
-			var jsTagOptions = $attrs.jsTagOptions;
-		
-			if ((jsTagOptions !== undefined) &&
-				(jsTagOptions.template !== "") &&
-				(jsTagOptions.template !== undefined)) {
-				return template;
-			} else {
-				return 'jsTag/source/templates/default/js-tag.html';
-			}
+			return 'jsTag/source/templates/default/js-tag.html';
 		}
 	}
-});
+}]);
 
 // TODO: Replace this custom directive by a supported angular-js directive for blur
-jsTag.directive('ngBlur', function($parse) {
+jsTag.directive('ngBlur', ['$parse', function($parse) {
     return {
         restrict: 'A',
         link: function(scope, elem, attrs) {
@@ -37,13 +29,13 @@ jsTag.directive('ngBlur', function($parse) {
 					});
         }
     };
-});
+}]);
 
 
 // Notice that focus me also sets the value to false when blur is called
 // TODO: Replace this custom directive by a supported angular-js directive for focus
 // http://stackoverflow.com/questions/14833326/how-to-set-focus-in-angularjs
-jsTag.directive('focusMe', function($parse, $timeout) {
+jsTag.directive('focusMe', ['$parse', '$timeout', function($parse, $timeout) {
 	return {
 		restrict: 'A',
 		link: function(scope, element, attrs) {
@@ -63,11 +55,11 @@ jsTag.directive('focusMe', function($parse, $timeout) {
 			});
 		}
 	};
-});
+}]);
 
 // focusOnce is used to focus an element once when first appearing
 // Not like focusMe that binds to an input boolean and keeps focusing by it
-jsTag.directive('focusOnce', function($timeout) {
+jsTag.directive('focusOnce', ['$timeout', function($timeout) {
 	return {
 		restrict: 'A',
 		link: function(scope, element, attrs) {
@@ -76,10 +68,10 @@ jsTag.directive('focusOnce', function($timeout) {
 			});
 		}
 	};
-});
+}]);
 
 // auto-grow directive by the "shadow" tag concept
-jsTag.directive('autoGrow', function($timeout) {
+jsTag.directive('autoGrow', ['$timeout', function($timeout) {
 	return {
 		link: function(scope, element, attr){
 			var paddingLeft = element.css('paddingLeft'),
@@ -123,4 +115,4 @@ jsTag.directive('autoGrow', function($timeout) {
 			$timeout(update);
 		}
 	}
-});
+}]);

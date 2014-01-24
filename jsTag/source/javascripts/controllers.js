@@ -11,6 +11,7 @@ jsTag.controller('JSTagMainCtrl', ['$attrs', '$scope', 'InputHandler', 'TagsHand
 	
 	// Copy so we don't override original values
 	var options = angular.copy(jsTagDefaults);
+	userOptions.texts = angular.extend(options.texts, userOptions.texts);
 	angular.extend(options, userOptions);
 	$scope.options = options;
 	

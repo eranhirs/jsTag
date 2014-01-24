@@ -8,6 +8,7 @@ jsTag.constant('jsTagDefaults', {
 		44 // Comma
 	],
 	'texts': {
-		'inputPlaceHolder': "Input text"
+		'inputPlaceHolder': "Input text",
+		'removeSymbol': String.fromCharCode(215)
 	}
 });

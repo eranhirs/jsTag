@@ -18,7 +18,7 @@ jsTag.filter('inArray', function() {
 // TODO: Currently the tags in JSTagsCollection is an object with indexes,
 // and this filter turns it into an array so we can sort them in ng-repeat.
 // An array should be used from the beginning.
-jsTag.filter('toArray', [function() {
+jsTag.filter('toArray', function() {
 	return function(input) {
 		var objectsAsArray = [];
 		for (var key in input) {
@@ -28,4 +28,4 @@ jsTag.filter('toArray', [function() {
 	
 		return objectsAsArray;
 	};
-}]);
+});

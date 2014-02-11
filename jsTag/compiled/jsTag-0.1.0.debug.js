@@ -2,7 +2,7 @@
 * jsTag JavaScript Library - Editing tags based on angularJS 
 * Git: https://github.com/eranhirs/jsTag/tree/master
 * License: MIT (http://www.opensource.org/licenses/mit-license.php)
-* Compiled At: 01/24/2014 23:26
+* Compiled At: 02/11/2014 05:12
 **************************************************/
 'use strict';
 var jsTag = angular.module('jsTag', []);
@@ -434,8 +434,13 @@ jsTag.controller('JSTagMainCtrl', ['$attrs', '$scope', 'InputHandler', 'TagsHand
 	
 	// Copy so we don't override original values
 	var options = angular.copy(jsTagDefaults);
-	userOptions.texts = angular.extend(options.texts, userOptions.texts);
-	angular.extend(options, userOptions);
+	
+	// Use user defined options
+	if (userOptions !== undefined) {
+		userOptions.texts = angular.extend(options.texts, userOptions.texts || {});
+		angular.extend(options, userOptions);
+	}
+	
 	$scope.options = options;
 	
 	// Export handlers to view

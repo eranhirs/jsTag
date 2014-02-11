@@ -27,22 +27,16 @@ em {
 	font-style: initial;
 }
 
+/* Override bootstrap's code background-color */
+code {
+	background-color: transparent;
+}
+
 /* Sub title */
 .page-header p {
 	color: #9294C2;
 }
 
-h1 {
-	
-}
-
-/*
-Delete this: maybe move to h1?
-h3 {
-	font-size: 1.3em;
-	font-weight: bold;
-}
-*/
 
 /* Nav */
 .bs-sidenav > li > a {
@@ -62,6 +56,7 @@ h3 {
 /* Highlight box */
 .highlight {
 	padding-top: 5px;
+	margin-top: 5px;
 }
 
 /* Code highlighter */
@@ -84,4 +79,159 @@ pre code {
 
 #mainFooter {
 	height: 15px;
+}
+
+/* Header navbar */
+
+.jstag-docs-nav {
+	/* navbar class adds unwanted margin bottom */
+	margin-bottom: 0px;
+}
+
+/* Sidebar */
+
+/* Keeps sidebar far from right corner */
+.bs-sidebar {
+	margin-right: 30px;
+}
+
+/* Keeps sidebar far from top */
+.bs-sidenav {
+	margin-top: 40px;
+	width: 124px;
+}
+
+.bs-sidebar > .nav > li.active > a {
+	padding-right: 13px;
+	font-weight: 700;
+	color: #1B146D;
+	border-right: 2px solid #1C4D7C;
+	display: block;
+	
+}
+
+.bs-sidebar > .nav > li > a {
+	text-align: right;
+	font-weight: 500;
+	font-size: 13px;
+	padding: 4px 15px;
+}
+
+/* Boostrap Affix */
+
+.bs-sidebar.affix {
+    position: fixed;
+	top: 20px;
+	/*position: fixed;
+	top: 0;
+	width:225px;*/
+}
+
+
+
+@media (min-width:992px) {
+    .bs-sidebar .nav>.active>ul {
+        display: block
+    }
+
+    .bs-sidebar.affix,.bs-sidebar.affix-bottom {
+        width: 213px
+    }
+
+    .bs-sidebar.affix {
+        position: fixed;
+        top: 20px
+    }
+
+    .bs-sidebar.affix-bottom {
+        position: absolute
+    }
+
+    .bs-sidebar.affix-bottom .bs-sidenav,.bs-sidebar.affix .bs-sidenav {
+        margin-top: 0;
+        margin-bottom: 0
+    }
+}
+
+@media (min-width:1200px) {
+    .bs-sidebar.affix-bottom,.bs-sidebar.affix {
+        width: 263px
+    }
+}
+
+/* bs-example additions */
+.example-lang {
+	font-size: 12px;
+    font-weight: 700;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* bs-example */
+
+.bs-example {
+    position: relative;
+    padding: 45px 15px 15px;
+    margin: 0 -15px 15px;
+    background-color: #fafafa;
+    box-shadow: inset 0 3px 6px rgba(0,0,0,.05);
+    border-color: #e5e5e5 #eee #eee;
+    border-style: solid;
+    border-width: 1px 0
+}
+
+.bs-example:after {
+    content: "Example";
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 1px
+}
+
+.bs-example+.highlight {
+    margin: -15px -15px 15px;
+    border-radius: 0;
+    border-width: 0 0 1px
+}
+
+@media (min-width:768px) {
+    .bs-example {
+        margin-left: 0;
+        margin-right: 0;
+        background-color: #F5F5F5;
+        border-width: 1px;
+        border-color: #ddd;
+        border-radius: 4px 4px 0 0;
+        box-shadow: none
+    }
+
+    .bs-example+.highlight {
+        margin-top: -16px;
+        margin-left: 0;
+        margin-right: 0;
+        border-width: 1px;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px
+    }
+}
+
+.bs-example .container {
+    width: auto
+}
+
+.bs-example>.alert:last-child,.bs-example>.form-control:last-child,.bs-example>.jumbotron:last-child,.bs-example>.list-group:last-child,.bs-example>.navbar:last-child,.bs-example>.panel:last-child,.bs-example>.progress:last-child,.bs-example>.table-responsive:last-child>.table,.bs-example>.table:last-child,.bs-example>.well:last-child,.bs-example>blockquote:last-child,.bs-example>ol:last-child,.bs-example>p:last-child,.bs-example>ul:last-child {
+    margin-bottom: 0
+}
+
+.bs-example>p>.close {
+    float: none
+}
+
+.bs-example .nav-tabs {
+    margin-bottom: 15px
 }

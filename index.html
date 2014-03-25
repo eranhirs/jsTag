@@ -1,228 +1,228 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<!-- ** Scripts ** -->
-		<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-		
-		<!-- Boootstrap -->
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-		
-		<!-- Angular.js script -->
-		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
-		
-		<!-- jsTag scripts -->
-		<script src="assets/jsTag-0.1.0.min.js"></script>
+  <head>
+    <!-- ** Scripts ** -->
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
-		<!-- index JS -->
-		<script src="assets/index.js"></script>
-		
-		<!-- ** Stylesheets ** -->
-		
-		<!-- fontawesome -->
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"></link>		
-		
-		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"></link>
-		
-		<!-- jsTag CSS -->
-		<link rel="stylesheet" href="assets/jsTag-0.1.0.css"></link>
-		
-		
-		<!-- Pygments CSS -->
-		<link rel="stylesheet" href="assets/pygments-manni.css"></link>
-		
-		<!-- index CSS -->
-		<link rel="stylesheet" href="assets/index.css"></link>
-	</head>
-	<body ng-app="demoApp" data-spy="scroll" data-target="#sidebar">
-		<!-- http://getbootstrap.com/components/#navbar-default -->
-		<header class="navbar navbar-inverse navbar-static-top jstag-docs-nav" role="banner">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="./">jsTag</a>
-				</div>
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav navbar-right">
-						<li>
-							<a href="https://github.com/eranhirs/jsTag/tree/master" target="_blank">
-								<i class="fa fa-github"></i>&nbsp;GitHub
-							</a>
-						</li>
-					</ul>
-				</div><!-- /.navbar-collapse -->
-			
-			</div>
-		</header>
-		<header class="page-header bs-header">
-			<div class="container">
-				<h1>jsTag for angularJS</h1>
-				<p>Open source project for editing tags (aka tokenizer) based on pure angularJS </p>
-			</div>
-		</header>
-		<div class="container">	
-			<div class="row" id="mainSection">
-				<div class="col-md-2">
-					<div class="bs-sidebar" id="sidebar" data-spy="affix" data-offset-top="205">
-						<ul class="nav bs-sidenav">
-							<li class="active">
-								<a href="#demo">
-									Demo
-								</a>
-							</li>
-							<li>
-								<a href="#whyJSTag">
-									Why jsTag?
-								</a>
-							</li>
-							<li>
-								<a href="#about">
-									About
-								</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md-10">
-					<div>
-						<h1 id="demo">Demo</h1>
-						<h3>Always</h3>
-						You always have to add jsTag as a dependency to your app. My app is named "demoApp", so it looks like this: <br/>
-						<code class="js"><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'demoApp'</span><span class="p">, [</span><span class="s1">'jsTag'</span><span class="p">]);</span></code>
-						<h3>Basic</h3>
-						After adding jsTag as a depedency, you can easily achieve:
-						<div class="bs-example">
-							<div id="basicDemo">
-								<js-tag js-tag-options='{
-									"autoFocus": true
-								}'></js-tag>
-							</div>
-							<div class="highlight">
-								<span class="example-lang"><span class="example-lang">Html</span></span>
-								<pre>
-									<code class="html"><span class="nt">&lt;js-tag</span><span class="nt">&gt;</span><span class="nt">&lt;/js-tag&gt;</span>
-									</code>
-								</pre>
-							</div>
-						</div>
-						<h3>Customized #1</h3>
-						Customize jsTag as follows:
-						<div class="bs-example">
-							<div id="inlineCustomizedDemo">
-								<js-tag js-tag-options='{
-											"texts": {
-												"inputPlaceHolder": "Type text here"
-											},
-											"defaultTags": ["Default Tag #1", "Default Tag #2"]
-								}'></js-tag>
-							</div>
-							<div class="highlight">
-								<span class="example-lang">Html</span>
-								<pre>
-									<code class="html"><span class="nt">&lt;js-tag</span> <span class="na">js-tag-options=</span><span class="s">"{
-	"texts": {
-		"inputPlaceHolder": "Type text here"
-	},
-	"defaultTags": ["Default Tag #1", "Default Tag #2"]
+    <!-- Boootstrap -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+    <!-- Angular.js script -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
+
+    <!-- jsTag scripts -->
+    <script src="assets/jsTag-0.1.0.min.js"></script>
+
+    <!-- index JS -->
+    <script src="assets/index.js"></script>
+
+    <!-- ** Stylesheets ** -->
+
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"></link>		
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"></link>
+
+    <!-- jsTag CSS -->
+    <link rel="stylesheet" href="assets/jsTag-0.1.0.css"></link>
+
+
+    <!-- Pygments CSS -->
+    <link rel="stylesheet" href="assets/pygments-manni.css"></link>
+
+    <!-- index CSS -->
+    <link rel="stylesheet" href="assets/index.css"></link>
+  </head>
+  <body ng-app="demoApp" data-spy="scroll" data-target="#sidebar">
+    <!-- http://getbootstrap.com/components/#navbar-default -->
+    <header class="navbar navbar-inverse navbar-static-top jstag-docs-nav" role="banner">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="./">jsTag</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="https://github.com/eranhirs/jsTag/tree/master" target="_blank">
+                <i class="fa fa-github"></i>&nbsp;GitHub
+              </a>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      
+      </div>
+    </header>
+    <header class="page-header bs-header">
+      <div class="container">
+        <h1>jsTag for angularJS</h1>
+        <p>Open source project for editing tags (aka tokenizer) based on pure angularJS </p>
+      </div>
+    </header>
+    <div class="container">	
+      <div class="row" id="mainSection">
+        <div class="col-md-2">
+          <div class="bs-sidebar" id="sidebar" data-spy="affix" data-offset-top="205">
+            <ul class="nav bs-sidenav">
+              <li class="active">
+                <a href="#demo">
+                  Demo
+                </a>
+              </li>
+              <li>
+                <a href="#whyJSTag">
+                  Why jsTag?
+                </a>
+              </li>
+              <li>
+                <a href="#about">
+                  About
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-10">
+          <div>
+            <h1 id="demo">Demo</h1>
+            <h3>Always</h3>
+            You always have to add jsTag as a dependency to your app. My app is named "demoApp", so it looks like this: <br/>
+            <code class="js"><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'demoApp'</span><span class="p">, [</span><span class="s1">'jsTag'</span><span class="p">]);</span></code>
+            <h3>Basic</h3>
+            After adding jsTag as a depedency, you can easily achieve:
+            <div class="bs-example">
+              <div id="basicDemo">
+                <js-tag js-tag-options='{
+                  "autoFocus": true
+                }'></js-tag>
+              </div>
+              <div class="highlight">
+                <span class="example-lang"><span class="example-lang">Html</span></span>
+                <pre>
+                  <code class="html"><span class="nt">&lt;js-tag</span><span class="nt">&gt;</span><span class="nt">&lt;/js-tag&gt;</span>
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <h3>Customized #1</h3>
+            Customize jsTag as follows:
+            <div class="bs-example">
+              <div id="inlineCustomizedDemo">
+                <js-tag js-tag-options='{
+                      "texts": {
+                        "inputPlaceHolder": "Type text here"
+                      },
+                      "defaultTags": ["Default Tag #1", "Default Tag #2"]
+                }'></js-tag>
+              </div>
+              <div class="highlight">
+                <span class="example-lang">Html</span>
+                <pre>
+                  <code class="html"><span class="nt">&lt;js-tag</span> <span class="na">js-tag-options=</span><span class="s">"{
+  "texts": {
+    "inputPlaceHolder": "Type text here"
+  },
+  "defaultTags": ["Default Tag #1", "Default Tag #2"]
 }"</span><span class="na"></span><span class="nt">&gt;</span><span class="nt">&lt;/js-tag&gt;</span>
-									</code>
-								</pre>
-							</div>
-						</div>
-						<h3>Customized #2</h3>
-						We can also customize our jsTag using a controller:
-						<div class="bs-example">
-							<div id="customizedDemo">
-								<div ng-controller="CustomizedController">
-									<js-tag js-tag-options="jsTagOptions"></js-tag>
-								</div>
-							</div>
-							<div class="highlight">
-								<span class="example-lang">Html</span>
-								<pre>
-									<code class="html" ng-non-bindable><span class="nt">&lt;div</span> <span class="na">ng-controller=</span><span class="s">&quot;CustomizedController&quot;</span><span class="nt">&gt;</span>
-	<span class="nt">&lt;js-tag</span> <span class="na">js-tag-options=</span><span class="s">&quot;jsTagOptions&quot;</span><span class="nt">&gt;</span><span class="nt">&lt;/js-tag&gt;</span>
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <h3>Customized #2</h3>
+            We can also customize our jsTag using a controller:
+            <div class="bs-example">
+              <div id="customizedDemo">
+                <div ng-controller="CustomizedController">
+                  <js-tag js-tag-options="jsTagOptions"></js-tag>
+                </div>
+              </div>
+              <div class="highlight">
+                <span class="example-lang">Html</span>
+                <pre>
+                  <code class="html" ng-non-bindable><span class="nt">&lt;div</span> <span class="na">ng-controller=</span><span class="s">&quot;CustomizedController&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;js-tag</span> <span class="na">js-tag-options=</span><span class="s">&quot;jsTagOptions&quot;</span><span class="nt">&gt;</span><span class="nt">&lt;/js-tag&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
-									</code>
-								</pre>
-								<span class="example-lang">Javascript</span>
-								<pre>
-									<code class="html"><span class="nx">demoApp</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">&#39;CustomizedController&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;$scope&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">)</span> <span class="p">{</span>
-	<span class="c1">// Export jsTags options</span>
-	<span class="nx">$scope</span><span class="p">.</span><span class="nx">jsTagOptions</span> <span class="o">=</span> <span class="p">{</span>
-		<span class="s2">&quot;texts&quot;</span><span class="o">:</span> <span class="p">{</span>
-			<span class="s2">&quot;inputPlaceHolder&quot;</span><span class="o">:</span> <span class="s2">&quot;Type text here&quot;</span>
-		<span class="p">},</span>
-		<span class="s2">&quot;defaultTags&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;Default Tag #1&quot;</span><span class="p">,</span> <span class="s2">&quot;Default Tag #2&quot;</span><span class="p">]</span>
-	<span class="p">};</span>
+                  </code>
+                </pre>
+                <span class="example-lang">Javascript</span>
+                <pre>
+                  <code class="html"><span class="nx">demoApp</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">&#39;CustomizedController&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;$scope&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Export jsTags options</span>
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">jsTagOptions</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;texts&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;inputPlaceHolder&quot;</span><span class="o">:</span> <span class="s2">&quot;Type text here&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;defaultTags&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;Default Tag #1&quot;</span><span class="p">,</span> <span class="s2">&quot;Default Tag #2&quot;</span><span class="p">]</span>
+  <span class="p">};</span>
 <span class="p">}]);</span>
-									</code>
-								</pre>
-							</div>
-						</div>
-						<h3>More Control</h3>
-						You want more control over your tags? Tell it to the directive!<br/>
-						In the following example we initialize our own JSTagsCollection to have full control:
-						<div class="bs-example" id="moreControlDemo">
-							<div ng-controller="MoreControlController">
-								<js-tag js-tag-options="jsTagOptions"></js-tag>
-								Number of tags: {{tags.getNumberOfTags()}}
-							</div>
-							<div class="highlight">
-								<span class="example-lang">Html</span>
-								<pre>
-									<code class="html" ng-non-bindable><span class="nt">&lt;div</span> <span class="na">ng-controller=</span><span class="s">&quot;MoreControlController&quot;</span><span class="nt">&gt;</span>
-	<span class="nt">&lt;js-tag</span> <span class="na">js-tag-options=</span><span class="s">&quot;jsTagOptions&quot;</span><span class="nt">&gt;</span><span class="nt">&lt;/js-tag&gt;</span>
-	Number of tags: {{tags.getNumberOfTags()}}
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <h3>More Control</h3>
+            You want more control over your tags? Tell it to the directive!<br/>
+            In the following example we initialize our own JSTagsCollection to have full control:
+            <div class="bs-example" id="moreControlDemo">
+              <div ng-controller="MoreControlController">
+                <js-tag js-tag-options="jsTagOptions"></js-tag>
+                Number of tags: {{tags.getNumberOfTags()}}
+              </div>
+              <div class="highlight">
+                <span class="example-lang">Html</span>
+                <pre>
+                  <code class="html" ng-non-bindable><span class="nt">&lt;div</span> <span class="na">ng-controller=</span><span class="s">&quot;MoreControlController&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;js-tag</span> <span class="na">js-tag-options=</span><span class="s">&quot;jsTagOptions&quot;</span><span class="nt">&gt;</span><span class="nt">&lt;/js-tag&gt;</span>
+  Number of tags: {{tags.getNumberOfTags()}}
 <span class="nt">&lt;/div&gt;</span>
-									</code>
-								</pre>							
-								<span class="example-lang">Javascript</span>
-								<pre>
-									<code class="javascript"><span class="nx">demoApp</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">&#39;MoreControlController&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;$scope&#39;</span><span class="p">,</span> <span class="s1">&#39;JSTagsCollection&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">JSTagsCollection</span><span class="p">)</span> <span class="p">{</span>
-	<span class="c1">// Build JSTagsCollection</span>
-	<span class="nx">$scope</span><span class="p">.</span><span class="nx">tags</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">JSTagsCollection</span><span class="p">([</span><span class="s2">&quot;jsTag&quot;</span><span class="p">,</span> <span class="s2">&quot;angularJS&quot;</span><span class="p">]);</span>
-	
-	<span class="c1">// Export jsTags options, inlcuding our own tags object</span>
-	<span class="nx">$scope</span><span class="p">.</span><span class="nx">jsTagOptions</span> <span class="o">=</span> <span class="p">{</span>
-		<span class="s2">&quot;tags&quot;</span><span class="o">:</span> <span class="nx">$scope</span><span class="p">.</span><span class="nx">tags</span>
-	<span class="p">};</span>
+                  </code>
+                </pre>							
+                <span class="example-lang">Javascript</span>
+                <pre>
+                  <code class="javascript"><span class="nx">demoApp</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">&#39;MoreControlController&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;$scope&#39;</span><span class="p">,</span> <span class="s1">&#39;JSTagsCollection&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">JSTagsCollection</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Build JSTagsCollection</span>
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">tags</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">JSTagsCollection</span><span class="p">([</span><span class="s2">&quot;jsTag&quot;</span><span class="p">,</span> <span class="s2">&quot;angularJS&quot;</span><span class="p">]);</span>
+
+  <span class="c1">// Export jsTags options, inlcuding our own tags object</span>
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">jsTagOptions</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;tags&quot;</span><span class="o">:</span> <span class="nx">$scope</span><span class="p">.</span><span class="nx">tags</span>
+  <span class="p">};</span>
 <span class="p">}]);</span>
-									</code>
-								</pre>
-							</div>
-						</div>
+                  </code>
+                </pre>
+              </div>
+            </div>
 					</div>
-					<div>
-						<h1 id="whyJSTag">Why jsTag?</h1>
-						<div>
-							Finally a real MVC library! Pure use of angularJS has it's benefits. <br/>
-							<ul>
-								<li>It can be tested (no unit tests yet, but it will have).</li>
-								<li>Working with models is great, see demo for example.</li>
-								<li>Maintainable code.</li>
-								<li>Easy to customize!</li>
-							</ul>
-						</div>
-					</div>
-					<div>
-						<h1 id="about">About</h1>
-						<div>
-							jsTag is an open source project for editing tags (aka tokenizer) based on pure angularJS.<br/>
-							The project was created by eranhirs for inner purpose.<br/>
-							Any contribution to the project is more than welcome, at the project's <a href="https://github.com/eranhirs/jsTag/tree/master" target="_blank">github page</a>.<br/>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<footer id="mainFooter">
-		</footer>
-	</body>
+          <div>
+            <h1 id="whyJSTag">Why jsTag?</h1>
+            <div>
+              Finally a real MVC library! Pure use of angularJS has it's benefits. <br/>
+              <ul>
+                <li>It can be tested (no unit tests yet, but it will have).</li>
+                <li>Working with models is great, see demo for example.</li>
+                <li>Maintainable code.</li>
+                <li>Easy to customize!</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <h1 id="about">About</h1>
+            <div>
+              jsTag is an open source project for editing tags (aka tokenizer) based on pure angularJS.<br/>
+              The project was created by eranhirs for inner purpose.<br/>
+              Any contribution to the project is more than welcome, at the project's <a href="https://github.com/eranhirs/jsTag/tree/master" target="_blank">github page</a>.<br/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer id="mainFooter">
+    </footer>
+  </body>
 </html>

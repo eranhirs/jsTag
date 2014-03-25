@@ -1,46 +1,46 @@
 <div
-	class="jt-editor"
-	ng-click="inputHandler.focusInput()" >
-	<span
-		ng-repeat="tag in tagsCollection.tags | toArray:orderBy:'id'"
-		ng-switch="tagsCollection.isTagEdited(tag)">
-		<span
-			ng-switch-when="false"
-			class="jt-tag active-{{tagsCollection.isTagActive(this.tag)}}">
-			<span
-				class="value"
-				ng-click="tagsHandler.tagClicked(this.tag)"
-				ng-dblclick="tagsHandler.tagDblClicked(this.tag)">
-				{{tag.value}}
-			</span>
-			<span class="remove-button" ng-click="tagsCollection.removeTag(this.tag.id)">{{options.texts.removeSymbol}}</span>
-		</span>
-		<input
-			ng-switch-when="true"
-			type="text"
-			class="jt-tag-edit"
-			focus-once
-			ng-blur="tagsHandler.onEditTagBlur(tagsCollection, inputHandler)"
-			ng-model="tag.value"
-			data-tag-id="{{tag.id}}"
-			ng-keydown="inputHandler.tagInputKeydown(tagsCollection, {$event: $event})"
-			placeholder="{{options.texts.inputPlaceHolder}}"
-			auto-grow
-			/>
-	</span>
-	<input
-		class="jt-tag-new"
-		type="text"
-		focus-me="inputHandler.isWaitingForInput"
-		ng-model="inputHandler.input"
-		ng-keydown="inputHandler.onKeydown(inputHandler, tagsCollection, {$event: $event})"
-		ng-hide="isThereAnEditedTag"
-		placeholder="{{options.texts.inputPlaceHolder}}"
-		auto-grow
-	/>
-	<input
-		class="jt-fake-input"
-		focus-me="isThereAnActiveTag"
-		ng-keydown="tagsHandler.onActiveTagKeydown(inputHandler, {$event: $event})"
-		ng-blur="tagsHandler.onActiveTagBlur()" />
+  class="jt-editor"
+  ng-click="inputHandler.focusInput()" >
+  <span
+    ng-repeat="tag in tagsCollection.tags | toArray:orderBy:'id'"
+    ng-switch="tagsCollection.isTagEdited(tag)">
+    <span
+      ng-switch-when="false"
+      class="jt-tag active-{{tagsCollection.isTagActive(this.tag)}}">
+      <span
+        class="value"
+        ng-click="tagsHandler.tagClicked(this.tag)"
+        ng-dblclick="tagsHandler.tagDblClicked(this.tag)">
+        {{tag.value}}
+      </span>
+      <span class="remove-button" ng-click="tagsCollection.removeTag(this.tag.id)">{{options.texts.removeSymbol}}</span>
+    </span>
+    <input
+      ng-switch-when="true"
+      type="text"
+      class="jt-tag-edit"
+      focus-once
+      ng-blur="tagsHandler.onEditTagBlur(tagsCollection, inputHandler)"
+      ng-model="tag.value"
+      data-tag-id="{{tag.id}}"
+      ng-keydown="inputHandler.tagInputKeydown(tagsCollection, {$event: $event})"
+      placeholder="{{options.texts.inputPlaceHolder}}"
+      auto-grow
+      />
+  </span>
+  <input
+    class="jt-tag-new"
+    type="text"
+    focus-me="inputHandler.isWaitingForInput"
+    ng-model="inputHandler.input"
+    ng-keydown="inputHandler.onKeydown(inputHandler, tagsCollection, {$event: $event})"
+    ng-hide="isThereAnEditedTag"
+    placeholder="{{options.texts.inputPlaceHolder}}"
+    auto-grow
+  />
+  <input
+    class="jt-fake-input"
+    focus-me="isThereAnActiveTag"
+    ng-keydown="tagsHandler.onActiveTagKeydown(inputHandler, {$event: $event})"
+    ng-blur="tagsHandler.onActiveTagBlur()" />
 </div>

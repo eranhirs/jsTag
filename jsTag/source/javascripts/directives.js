@@ -116,3 +116,40 @@ jsTag.directive('autoGrow', ['$timeout', function($timeout) {
     }
   }
 }]);
+
+// auto-grow directive by the "shadow" tag concept
+jsTag.directive('jsTagTypeahead', [function() {
+  return {
+    link: function(scope, element, attrs) {
+      var typeaheadOptions = scope.options.typeahead;
+      
+      // Use typeahead only if user sent options
+      if (typeaheadOptions !== undefined) {
+        var isEditElement = element.hasClass("jt-tag-edit");
+        
+        element.typeahead({
+          'source': scope.options.typeahead.suggestions,
+          // updater function is called by Bootstrap once the user selects an item
+          'updater': function(item) {
+            var inputHandler = scope.inputHandler;
+            var tagsCollection = scope.tagsCollection;
+            
+            if (isEditElement) {
+              // User selecting an item is the same as breakcode hit
+              inputHandler.breakCodeHitOnEdit(tagsCollection);
+              
+              // Will save item on currently editedTag
+              return item;
+            } else {
+              // Save item in input
+              inputHandler.input = item;
+            
+              // User selecting an item is the same as breakcode hit
+              inputHandler.breakCodeHit(tagsCollection);
+            }
+          }
+        });
+      }
+    }
+  }
+}]);  

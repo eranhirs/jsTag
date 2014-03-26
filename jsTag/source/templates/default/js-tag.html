@@ -26,6 +26,7 @@
       ng-keydown="inputHandler.tagInputKeydown(tagsCollection, {$event: $event})"
       placeholder="{{options.texts.inputPlaceHolder}}"
       auto-grow
+      js-tag-typeahead
       />
   </span>
   <input
@@ -33,10 +34,11 @@
     type="text"
     focus-me="inputHandler.isWaitingForInput"
     ng-model="inputHandler.input"
-    ng-keydown="inputHandler.onKeydown(inputHandler, tagsCollection, {$event: $event})"
     ng-hide="isThereAnEditedTag"
+    ng-keydown="inputHandler.onKeydown(inputHandler, tagsCollection, {$event: $event})"
     placeholder="{{options.texts.inputPlaceHolder}}"
     auto-grow
+    js-tag-typeahead
   />
   <input
     class="jt-fake-input"

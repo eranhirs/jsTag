@@ -1,130 +1,130 @@
 body {
-	margin: 0px;
-	font-family: sans-serif;
-	background-color: #EEE;
-	color: #5F5F5F;
+  margin: 0px;
+  font-family: sans-serif;
+  background-color: #EEE;
+  color: #5F5F5F;
 }
 
 .page-header {
-	background: #1C4D7C;
-	/* Chrome 10+ */
-	background-image: -webkit-linear-gradient(top, #1C4D7C, #1B146D);
-	/* Firefox 3.6+ */
-	background-image: -moz-linear-gradient(top, #1C4D7C, #1B146D);
-	/* IE 10 */
-	background-image: -ms-linear-gradient(top, #1C4D7C, #1B146D);
-	
-	padding: 3px 3px 3px 23px;
-	color: #E9E9E9;
-	font-size: 21px;
-	
-	/* Override twitter's margin-top used if we want a topbar */
-	margin-top: 0px;
+  background: #1C4D7C;
+  /* Chrome 10+ */
+  background-image: -webkit-linear-gradient(top, #1C4D7C, #1B146D);
+  /* Firefox 3.6+ */
+  background-image: -moz-linear-gradient(top, #1C4D7C, #1B146D);
+  /* IE 10 */
+  background-image: -ms-linear-gradient(top, #1C4D7C, #1B146D);
+  
+  padding: 3px 3px 3px 23px;
+  color: #E9E9E9;
+  font-size: 21px;
+  
+  /* Override twitter's margin-top used if we want a topbar */
+  margin-top: 0px;
 }
 
 em {
-	font-weight: bold;
-	font-style: initial;
+  font-weight: bold;
+  font-style: initial;
 }
 
 /* Override bootstrap's code background-color */
 code {
-	background-color: transparent;
+  background-color: transparent;
 }
 
 /* Sub title */
 .page-header p {
-	color: #9294C2;
+  color: #9294C2;
 }
 
 
 /* Nav */
 .bs-sidenav > li > a {
-	display: block;
-	color: #716b7a;
-	padding: 5px 20px;
+  display: block;
+  color: #716b7a;
+  padding: 5px 20px;
 }
 
 .bs-sidenav > li.active {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .bs-sidenav > li:hover {
-	background: #EA712B;
+  background: #EA712B;
 }
 
 /* Highlight box */
 .highlight {
-	padding-top: 5px;
-	margin-top: 5px;
+  padding-top: 5px;
+  margin-top: 5px;
 }
 
 /* Code highlighter */
 .highlight pre {
-	padding: 10px 0px 0px 10px;
-	margin-top: 0;
-	margin-bottom: 0;
-	background-color: rgb(233,233,233);
-	white-space: nowrap;
+  padding: 10px 0px 0px 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+  background-color: rgb(233,233,233);
+  white-space: nowrap;
 }
 
 pre code {
-	padding: 0;
-	font-size: inherit;
-	color: inherit;
-	white-space: pre-wrap;
-	background-color: transparent;
-	border-radius: 0;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: transparent;
+  border-radius: 0;
 }
 
 #mainFooter {
-	height: 15px;
+  height: 15px;
 }
 
 /* Header navbar */
 
 .jstag-docs-nav {
-	/* navbar class adds unwanted margin bottom */
-	margin-bottom: 0px;
+  /* navbar class adds unwanted margin bottom */
+  margin-bottom: 0px;
 }
 
 /* Sidebar */
 
 /* Keeps sidebar far from right corner */
 .bs-sidebar {
-	margin-right: 30px;
+  margin-right: 30px;
 }
 
 /* Keeps sidebar far from top */
 .bs-sidenav {
-	margin-top: 40px;
-	width: 124px;
+  margin-top: 40px;
+  width: 124px;
 }
 
 .bs-sidebar > .nav > li.active > a {
-	padding-right: 13px;
-	font-weight: 700;
-	color: #1B146D;
-	border-right: 2px solid #1C4D7C;
-	display: block;
-	
+  padding-right: 13px;
+  font-weight: 700;
+  color: #1B146D;
+  border-right: 2px solid #1C4D7C;
+  display: block;
+  
 }
 
 .bs-sidebar > .nav > li > a {
-	text-align: right;
-	font-weight: 500;
-	font-size: 13px;
-	padding: 4px 15px;
+  text-align: right;
+  font-weight: 500;
+  font-size: 13px;
+  padding: 4px 15px;
 }
 
 /* Boostrap Affix */
 
 .bs-sidebar.affix {
     position: fixed;
-	top: 20px;
-	/*position: fixed;
-	top: 0;
-	width:225px;*/
+  top: 20px;
+  /*position: fixed;
+  top: 0;
+  width:225px;*/
 }
 
 
@@ -161,7 +161,7 @@ pre code {
 
 /* bs-example additions */
 .example-lang {
-	font-size: 12px;
+  font-size: 12px;
     font-weight: 700;
     color: #bbb;
     text-transform: uppercase;

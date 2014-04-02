@@ -8,7 +8,6 @@
 		"angular",
 		"angularjs"
 	],
-	"author": "eranhirs",
 	"license": "MIT",
 	"main": ["jsTag/compiled/jsTag.min.js", "jsTag/compiled/jsTag.css"],
 	"ignore": [

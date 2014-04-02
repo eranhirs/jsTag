@@ -2,7 +2,7 @@
 * jsTag JavaScript Library - Editing tags based on angularJS 
 * Git: https://github.com/eranhirs/jsTag/tree/master
 * License: MIT (http://www.opensource.org/licenses/mit-license.php)
-* Compiled At: 03/27/2014 00:03
+* Compiled At: 04/03/2014 01:24
 **************************************************/
 'use strict';
 var jsTag = angular.module('jsTag', []);
@@ -595,42 +595,53 @@ jsTag.directive('autoGrow', ['$timeout', function($timeout) {
   }
 }]);
 
-// auto-grow directive by the "shadow" tag concept
+// A directive for Bootstrap's typeahead.
+// If you want to use a different plugin for auto-complete it's easy as writing a directive.
 jsTag.directive('jsTagTypeahead', [function() {
   return {
     link: function(scope, element, attrs) {
-      var typeaheadOptions = scope.options.typeahead;
+      var userTypeaheadOptions = scope.options.typeahead;
       
       // Use typeahead only if user sent options
-      if (typeaheadOptions !== undefined) {
+      if (userTypeaheadOptions !== undefined) {
+        // Decide by element class name if this is the 'edit input' or a 'new input'
         var isEditElement = element.hasClass("jt-tag-edit");
         
-        element.typeahead({
-          'source': scope.options.typeahead.suggestions,
-          // updater function is called by Bootstrap once the user selects an item
-          'updater': function(item) {
-            var inputHandler = scope.inputHandler;
-            var tagsCollection = scope.tagsCollection;
+        // updater function is called by Bootstrap once the user selects an item.
+        // This function hooks the auto-complete to the inputHandler.
+        var updaterFunction = function(item) {
+          var inputHandler = scope.inputHandler;
+          var tagsCollection = scope.tagsCollection;
+          
+          if (isEditElement) {
+            // User selecting an item is the same as breakcode hit
+            inputHandler.breakCodeHitOnEdit(tagsCollection);
             
-            if (isEditElement) {
-              // User selecting an item is the same as breakcode hit
-              inputHandler.breakCodeHitOnEdit(tagsCollection);
-              
-              // Will save item on currently editedTag
-              return item;
-            } else {
-              // Save item in input
-              inputHandler.input = item;
-            
-              // User selecting an item is the same as breakcode hit
-              inputHandler.breakCodeHit(tagsCollection);
-            }
+            // Will save item on currently editedTag
+            return item;
+          } else {
+            // Save item in input
+            inputHandler.input = item;
+          
+            // User selecting an item is the same as breakcode hit
+            inputHandler.breakCodeHit(tagsCollection);
           }
-        });
+          
+          // Allow users to write their own update function
+          if (userTypeaheadOptions.updater !== undefined) {
+            userTypeaheadOptions.updater(item);
+          }
+        }
+        
+        // Take user defined options + our updaterFunction
+        var typeaheadOptions = angular.copy(userTypeaheadOptions);
+				typeaheadOptions.updater = updaterFunction;
+				
+        element.typeahead(typeaheadOptions);
       }
     }
   }
-}]);  
+}]);
 angular.module("jsTag").run(["$templateCache", function($templateCache) {
 
   $templateCache.put("jsTag/source/templates/default/js-tag.html",

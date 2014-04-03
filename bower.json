@@ -15,6 +15,7 @@
       ".gitignore",
       "GruntFile.js",
       "package.json",
-      "README.md"
+      "README.md",
+      "bower.json"
   ]
 }

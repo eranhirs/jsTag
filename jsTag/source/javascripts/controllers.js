@@ -1,6 +1,6 @@
 var jsTag = angular.module('jsTag');
 
-jsTag.controller('JSTagMainCtrl', ['$attrs', '$scope', 'InputHandler', 'TagsHandler', 'jsTagDefaults', function($attrs, $scope, InputHandler, TagsHandler, jsTagDefaults) {
+jsTag.controller('JSTagMainCtrl', ['$attrs', '$scope', 'InputService', 'TagsInputService', 'jsTagDefaults', function($attrs, $scope, InputService, TagsInputService, jsTagDefaults) {
   // Parse user options and merge with defaults
   var userOptions = {};
   try {
@@ -21,11 +21,11 @@ jsTag.controller('JSTagMainCtrl', ['$attrs', '$scope', 'InputHandler', 'TagsHand
   $scope.options = options;
   
   // Export handlers to view
-  $scope.tagsHandler = new TagsHandler($scope.options);
-  $scope.inputHandler = new InputHandler($scope.options);
+  $scope.tagsInputService = new TagsInputService($scope.options);
+  $scope.inputService = new InputService($scope.options);
   
   // Export tagsCollection separately since it's used alot
-  var tagsCollection = $scope.tagsHandler.tagsCollection;
+  var tagsCollection = $scope.tagsInputService.tagsCollection;
   $scope.tagsCollection = tagsCollection;
     
   // TODO: Should be inside inside tagsCollection.js

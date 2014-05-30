@@ -1,7 +1,7 @@
 var jsTag = angular.module('jsTag');
 
 // TagsCollection Model
-jsTag.factory('TagsHandler', ['JSTag', 'JSTagsCollection', function(JSTag, JSTagsCollection) {
+jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, JSTagsCollection) {
   // Constructor
   function TagsHandler(options) {
     var tags = options.tags;

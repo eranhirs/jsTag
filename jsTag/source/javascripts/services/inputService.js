@@ -1,7 +1,7 @@
 var jsTag = angular.module('jsTag');
 
 // This service handles everything related to input (when to focus input, key pressing, breakcodeHit).
-jsTag.factory('InputHandler', ['$filter', function($filter) {
+jsTag.factory('InputService', ['$filter', function($filter) {
   
   // Constructor
   function InputHandler(options) {

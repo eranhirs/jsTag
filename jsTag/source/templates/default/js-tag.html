@@ -1,6 +1,6 @@
 <div
   class="jt-editor"
-  ng-click="inputHandler.focusInput()" >
+  ng-click="inputService.focusInput()" >
   <span
     ng-repeat="tag in tagsCollection.tags | toArray:orderBy:'id'"
     ng-switch="tagsCollection.isTagEdited(tag)">
@@ -9,8 +9,8 @@
       class="jt-tag active-{{tagsCollection.isTagActive(this.tag)}}">
       <span
         class="value"
-        ng-click="tagsHandler.tagClicked(this.tag)"
-        ng-dblclick="tagsHandler.tagDblClicked(this.tag)">
+        ng-click="tagsInputService.tagClicked(this.tag)"
+        ng-dblclick="tagsInputService.tagDblClicked(this.tag)">
         {{tag.value}}
       </span>
       <span class="remove-button" ng-click="tagsCollection.removeTag(this.tag.id)">{{options.texts.removeSymbol}}</span>
@@ -20,10 +20,10 @@
       type="text"
       class="jt-tag-edit"
       focus-once
-      ng-blur="tagsHandler.onEditTagBlur(tagsCollection, inputHandler)"
+      ng-blur="tagsInputService.onEditTagBlur(tagsCollection, inputService)"
       ng-model="tag.value"
       data-tag-id="{{tag.id}}"
-      ng-keydown="inputHandler.tagInputKeydown(tagsCollection, {$event: $event})"
+      ng-keydown="inputService.tagInputKeydown(tagsCollection, {$event: $event})"
       placeholder="{{options.texts.inputPlaceHolder}}"
       auto-grow
       js-tag-typeahead
@@ -32,10 +32,10 @@
   <input
     class="jt-tag-new"
     type="text"
-    focus-me="inputHandler.isWaitingForInput"
-    ng-model="inputHandler.input"
+    focus-me="inputService.isWaitingForInput"
+    ng-model="inputService.input"
     ng-hide="isThereAnEditedTag"
-    ng-keydown="inputHandler.onKeydown(inputHandler, tagsCollection, {$event: $event})"
+    ng-keydown="inputService.onKeydown(inputService, tagsCollection, {$event: $event})"
     placeholder="{{options.texts.inputPlaceHolder}}"
     auto-grow
     js-tag-typeahead
@@ -43,6 +43,6 @@
   <input
     class="jt-fake-input"
     focus-me="isThereAnActiveTag"
-    ng-keydown="tagsHandler.onActiveTagKeydown(inputHandler, {$event: $event})"
-    ng-blur="tagsHandler.onActiveTagBlur()" />
+    ng-keydown="tagsInputService.onActiveTagKeydown(inputService, {$event: $event})"
+    ng-blur="tagsInputService.onActiveTagBlur()" />
 </div>

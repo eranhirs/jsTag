@@ -2,7 +2,7 @@
 * jsTag JavaScript Library - Editing tags based on angularJS 
 * Git: https://github.com/eranhirs/jsTag/tree/master
 * License: MIT (http://www.opensource.org/licenses/mit-license.php)
-* Compiled At: 04/03/2014 01:24
+* Compiled At: 05/30/2014 08:10
 **************************************************/
 'use strict';
 var jsTag = angular.module('jsTag', []);
@@ -244,7 +244,7 @@ function getPreviousProperty(obj, propertyId) {
 var jsTag = angular.module('jsTag');
 
 // This service handles everything related to input (when to focus input, key pressing, breakcodeHit).
-jsTag.factory('InputHandler', ['$filter', function($filter) {
+jsTag.factory('InputService', ['$filter', function($filter) {
   
   // Constructor
   function InputHandler(options) {
@@ -333,7 +333,7 @@ jsTag.factory('InputHandler', ['$filter', function($filter) {
 var jsTag = angular.module('jsTag');
 
 // TagsCollection Model
-jsTag.factory('TagsHandler', ['JSTag', 'JSTagsCollection', function(JSTag, JSTagsCollection) {
+jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, JSTagsCollection) {
   // Constructor
   function TagsHandler(options) {
     var tags = options.tags;
@@ -436,7 +436,7 @@ jsTag.factory('TagsHandler', ['JSTag', 'JSTagsCollection', function(JSTag, JSTag
 var jsTag = angular.module('jsTag');
 var jsTag = angular.module('jsTag');
 
-jsTag.controller('JSTagMainCtrl', ['$attrs', '$scope', 'InputHandler', 'TagsHandler', 'jsTagDefaults', function($attrs, $scope, InputHandler, TagsHandler, jsTagDefaults) {
+jsTag.controller('JSTagMainCtrl', ['$attrs', '$scope', 'InputService', 'TagsInputService', 'jsTagDefaults', function($attrs, $scope, InputService, TagsInputService, jsTagDefaults) {
   // Parse user options and merge with defaults
   var userOptions = {};
   try {
@@ -457,11 +457,11 @@ jsTag.controller('JSTagMainCtrl', ['$attrs', '$scope', 'InputHandler', 'TagsHand
   $scope.options = options;
   
   // Export handlers to view
-  $scope.tagsHandler = new TagsHandler($scope.options);
-  $scope.inputHandler = new InputHandler($scope.options);
+  $scope.tagsInputService = new TagsInputService($scope.options);
+  $scope.inputService = new InputService($scope.options);
   
   // Export tagsCollection separately since it's used alot
-  var tagsCollection = $scope.tagsHandler.tagsCollection;
+  var tagsCollection = $scope.tagsInputService.tagsCollection;
   $scope.tagsCollection = tagsCollection;
     
   // TODO: Should be inside inside tagsCollection.js
@@ -608,23 +608,23 @@ jsTag.directive('jsTagTypeahead', [function() {
         var isEditElement = element.hasClass("jt-tag-edit");
         
         // updater function is called by Bootstrap once the user selects an item.
-        // This function hooks the auto-complete to the inputHandler.
+        // This function hooks the auto-complete to the inputService.
         var updaterFunction = function(item) {
-          var inputHandler = scope.inputHandler;
+          var inputService = scope.inputService;
           var tagsCollection = scope.tagsCollection;
           
           if (isEditElement) {
             // User selecting an item is the same as breakcode hit
-            inputHandler.breakCodeHitOnEdit(tagsCollection);
+            inputService.breakCodeHitOnEdit(tagsCollection);
             
             // Will save item on currently editedTag
             return item;
           } else {
             // Save item in input
-            inputHandler.input = item;
+            inputService.input = item;
           
             // User selecting an item is the same as breakcode hit
-            inputHandler.breakCodeHit(tagsCollection);
+            inputService.breakCodeHit(tagsCollection);
           }
           
           // Allow users to write their own update function
@@ -647,7 +647,7 @@ angular.module("jsTag").run(["$templateCache", function($templateCache) {
   $templateCache.put("jsTag/source/templates/default/js-tag.html",
     "<div\n" +
     "  class=\"jt-editor\"\n" +
-    "  ng-click=\"inputHandler.focusInput()\" >\n" +
+    "  ng-click=\"inputService.focusInput()\" >\n" +
     "  <span\n" +
     "    ng-repeat=\"tag in tagsCollection.tags | toArray:orderBy:'id'\"\n" +
     "    ng-switch=\"tagsCollection.isTagEdited(tag)\">\n" +
@@ -656,8 +656,8 @@ angular.module("jsTag").run(["$templateCache", function($templateCache) {
     "      class=\"jt-tag active-{{tagsCollection.isTagActive(this.tag)}}\">\n" +
     "      <span\n" +
     "        class=\"value\"\n" +
-    "        ng-click=\"tagsHandler.tagClicked(this.tag)\"\n" +
-    "        ng-dblclick=\"tagsHandler.tagDblClicked(this.tag)\">\n" +
+    "        ng-click=\"tagsInputService.tagClicked(this.tag)\"\n" +
+    "        ng-dblclick=\"tagsInputService.tagDblClicked(this.tag)\">\n" +
     "        {{tag.value}}\n" +
     "      </span>\n" +
     "      <span class=\"remove-button\" ng-click=\"tagsCollection.removeTag(this.tag.id)\">{{options.texts.removeSymbol}}</span>\n" +
@@ -667,10 +667,10 @@ angular.module("jsTag").run(["$templateCache", function($templateCache) {
     "      type=\"text\"\n" +
     "      class=\"jt-tag-edit\"\n" +
     "      focus-once\n" +
-    "      ng-blur=\"tagsHandler.onEditTagBlur(tagsCollection, inputHandler)\"\n" +
+    "      ng-blur=\"tagsInputService.onEditTagBlur(tagsCollection, inputService)\"\n" +
     "      ng-model=\"tag.value\"\n" +
     "      data-tag-id=\"{{tag.id}}\"\n" +
-    "      ng-keydown=\"inputHandler.tagInputKeydown(tagsCollection, {$event: $event})\"\n" +
+    "      ng-keydown=\"inputService.tagInputKeydown(tagsCollection, {$event: $event})\"\n" +
     "      placeholder=\"{{options.texts.inputPlaceHolder}}\"\n" +
     "      auto-grow\n" +
     "      js-tag-typeahead\n" +
@@ -679,10 +679,10 @@ angular.module("jsTag").run(["$templateCache", function($templateCache) {
     "  <input\n" +
     "    class=\"jt-tag-new\"\n" +
     "    type=\"text\"\n" +
-    "    focus-me=\"inputHandler.isWaitingForInput\"\n" +
-    "    ng-model=\"inputHandler.input\"\n" +
+    "    focus-me=\"inputService.isWaitingForInput\"\n" +
+    "    ng-model=\"inputService.input\"\n" +
     "    ng-hide=\"isThereAnEditedTag\"\n" +
-    "    ng-keydown=\"inputHandler.onKeydown(inputHandler, tagsCollection, {$event: $event})\"\n" +
+    "    ng-keydown=\"inputService.onKeydown(inputService, tagsCollection, {$event: $event})\"\n" +
     "    placeholder=\"{{options.texts.inputPlaceHolder}}\"\n" +
     "    auto-grow\n" +
     "    js-tag-typeahead\n" +
@@ -690,8 +690,8 @@ angular.module("jsTag").run(["$templateCache", function($templateCache) {
     "  <input\n" +
     "    class=\"jt-fake-input\"\n" +
     "    focus-me=\"isThereAnActiveTag\"\n" +
-    "    ng-keydown=\"tagsHandler.onActiveTagKeydown(inputHandler, {$event: $event})\"\n" +
-    "    ng-blur=\"tagsHandler.onActiveTagBlur()\" />\n" +
+    "    ng-keydown=\"tagsInputService.onActiveTagKeydown(inputService, {$event: $event})\"\n" +
+    "    ng-blur=\"tagsInputService.onActiveTagBlur()\" />\n" +
     "</div>"
   );
 

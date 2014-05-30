@@ -130,23 +130,23 @@ jsTag.directive('jsTagTypeahead', [function() {
         var isEditElement = element.hasClass("jt-tag-edit");
         
         // updater function is called by Bootstrap once the user selects an item.
-        // This function hooks the auto-complete to the inputHandler.
+        // This function hooks the auto-complete to the inputService.
         var updaterFunction = function(item) {
-          var inputHandler = scope.inputHandler;
+          var inputService = scope.inputService;
           var tagsCollection = scope.tagsCollection;
           
           if (isEditElement) {
             // User selecting an item is the same as breakcode hit
-            inputHandler.breakCodeHitOnEdit(tagsCollection);
+            inputService.breakCodeHitOnEdit(tagsCollection);
             
             // Will save item on currently editedTag
             return item;
           } else {
             // Save item in input
-            inputHandler.input = item;
+            inputService.input = item;
           
             // User selecting an item is the same as breakcode hit
-            inputHandler.breakCodeHit(tagsCollection);
+            inputService.breakCodeHit(tagsCollection);
           }
           
           // Allow users to write their own update function

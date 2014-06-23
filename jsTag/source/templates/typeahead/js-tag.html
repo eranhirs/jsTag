@@ -1,0 +1,51 @@
+<div
+  class="jt-editor"
+  ng-click="inputService.focusInput()" >
+  <span
+    ng-repeat="tag in tagsCollection.tags | toArray:orderBy:'id'"
+    ng-switch="tagsCollection.isTagEdited(tag)">
+    <span
+      ng-switch-when="false"
+      class="jt-tag active-{{tagsCollection.isTagActive(this.tag)}}">
+      <span
+        class="value"
+        ng-click="tagsInputService.tagClicked(this.tag)"
+        ng-dblclick="tagsInputService.tagDblClicked(this.tag)">
+        {{tag.value}}
+      </span>
+      <span class="remove-button" ng-click="tagsCollection.removeTag(this.tag.id)">{{options.texts.removeSymbol}}</span>
+    </span>
+    <span
+      ng-switch-when="true">
+      <input
+        type="text"
+        class="jt-tag-edit"
+        focus-once
+        ng-model="tag.value"
+        data-tag-id="{{tag.id}}"
+        ng-keydown="inputService.tagInputKeydown(tagsCollection, {$event: $event})"
+        placeholder="{{options.texts.inputPlaceHolder}}"
+        auto-grow
+        options="exampleOptions" datasets="exampleData"
+        sf-typeahead
+        />
+    </span>
+  </span>
+  <input
+    class="jt-tag-new"
+    type="text"
+    focus-me="inputService.isWaitingForInput"
+    ng-model="inputService.input"
+    ng-hide="isThereAnEditedTag"
+    ng-keydown="inputService.onKeydown(inputService, tagsCollection, {$event: $event})"
+    placeholder="{{options.texts.inputPlaceHolder}}"
+    auto-grow
+    options="exampleOptions" datasets="exampleData"
+    sf-typeahead
+  />
+  <input
+    class="jt-fake-input"
+    focus-me="isThereAnActiveTag"
+    ng-keydown="tagsInputService.onActiveTagKeydown(inputService, {$event: $event})"
+    ng-blur="tagsInputService.onActiveTagBlur()" />
+</div>

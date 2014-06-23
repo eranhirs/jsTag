@@ -17,7 +17,7 @@ module.exports = function(grunt) {
     ],
     ngtemplates: {
       jsTag: {
-        src: ['jsTag/source/templates/default/**.html'],
+        src: ['jsTag/source/templates/*/**.html'],
         dest: 'tmp/templates.js'
       }
     },

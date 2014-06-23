@@ -2,7 +2,7 @@
 * jsTag JavaScript Library - Editing tags based on angularJS 
 * Git: https://github.com/eranhirs/jsTag/tree/master
 * License: MIT (http://www.opensource.org/licenses/mit-license.php)
-* Compiled At: 05/30/2014 08:10
+* Compiled At: 06/24/2014 01:07
 **************************************************/
 'use strict';
 var jsTag = angular.module('jsTag', []);
@@ -247,29 +247,28 @@ var jsTag = angular.module('jsTag');
 jsTag.factory('InputService', ['$filter', function($filter) {
   
   // Constructor
-  function InputHandler(options) {
+  function InputService(options) {
     this.input = "";
     this.isWaitingForInput = options.autoFocus || false;
     this.options = options;
-    
-    // If we are working with typeahead, we will let typeahead updater's function call our break function
-    if (options.typeahead !== undefined) {
-      options.cancelNormalBreak = true;
-    }
   }
   
   // *** Events *** //
   
   // Handles an input of a new tag keydown
-  InputHandler.prototype.onKeydown = function(inputHandler, tagsCollection, options) {
+  InputService.prototype.onKeydown = function(inputService, tagsCollection, options) {
     var e = options.$event;
     var keycode = e.which;
+    var $currentTarget = $(e.currentTarget);
   
     // Check if should break by breakcodes && Check if the user didn't cancel normal break
-    if ($filter("inArray")(keycode, this.options.breakCodes) !== false &&
-        !this.options.cancelNormalBreak) {
-      // TODO: Call event instead of calling a method, easier to customize: this.scope.$broadcast("jt.breakCodeHit");
-      inputHandler.breakCodeHit(tagsCollection);
+    if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
+
+      inputService.breakCodeHit(tagsCollection);
+
+      // TODO: Extract bootstrap extension to different file and use events to easly customize
+      //       Move into $watch on this._input, inside typeahead's directive
+      $currentTarget.typeahead('val', '')
     } else {
       switch (keycode) {
         case 9:	// Tab
@@ -277,7 +276,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
           break;
         case 37: // Left arrow
         case 8: // Backspace
-          if (inputHandler.input === "") {
+          if (inputService.input === "") {
             // TODO: Call removing tag event instead of calling a method, easier to customize
             tagsCollection.setLastTagActive();
           }
@@ -288,34 +287,40 @@ jsTag.factory('InputService', ['$filter', function($filter) {
   }
   
   // Handles an input of an edited tag keydown
-  InputHandler.prototype.tagInputKeydown = function(tagsCollection, options) {
+  InputService.prototype.tagInputKeydown = function(tagsCollection, options) {
     var e = options.$event;
     var keycode = e.which;
+    var $currentTarget = $(e.currentTarget);
     
     // Check if should break by breakcodes && Check if the user didn't cancel normal break
-    if ($filter("inArray")(keycode, this.options.breakCodes) !== false &&
-        !this.options.cancelNormalBreak) {
-        this.breakCodeHitOnEdit(tagsCollection);
+    if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
+      this.breakCodeHitOnEdit(tagsCollection);
     }
   }
   
   // *** Methods *** //
   
-  InputHandler.prototype.resetInput = function() {
+  InputService.prototype.resetInput = function() {
     var value = this.input;
     this.input = "";
     return value;
   }
   
   // Sets focus on input
-  InputHandler.prototype.focusInput = function() {
+  InputService.prototype.focusInput = function() {
     this.isWaitingForInput = true;
   }
   
   // breakCodeHit is called when finished creating tag
-  InputHandler.prototype.breakCodeHit = function(tagsCollection) {
+  InputService.prototype.breakCodeHit = function(tagsCollection) {
     if (this.input !== "") {
       var value = this.resetInput();
+      
+      // Input is an object when using typeahead (the key is chosen by the user)
+      if (value instanceof Object)
+      {
+        value = value[Object.keys(value)[0]];
+      }
       
       // Add to tags array
       tagsCollection.addTag(value);
@@ -323,12 +328,18 @@ jsTag.factory('InputService', ['$filter', function($filter) {
   }
   
   // breakCodeHit is called when finished editing tag
-  InputHandler.prototype.breakCodeHitOnEdit = function(tagsCollection) {
+  InputService.prototype.breakCodeHitOnEdit = function(tagsCollection) {
+    // Input is an object when using typeahead (the key is chosen by the user)
+    var editedTag = tagsCollection.getEditedTag();
+    if (editedTag.value instanceof Object) {
+      editedTag.value = editedTag.value[Object.keys(editedTag.value)[0]];
+    }
+  
     tagsCollection.unsetEditedTag();
     this.isWaitingForInput = true;
   };
     
-  return InputHandler;
+  return InputService;
 }]);
 var jsTag = angular.module('jsTag');
 
@@ -484,8 +495,9 @@ jsTag.directive('jsTag', ['$templateCache', function($templateCache) {
     restrict: 'E',
     scope: true,
     controller: 'JSTagMainCtrl',
-    templateUrl: function($element, $attrs, jsTagDefaults) {
-      return 'jsTag/source/templates/default/js-tag.html';
+    templateUrl: function($element, $attrs) {
+      var mode = $attrs.jsTagMode || "default";
+      return 'jsTag/source/templates/' + mode + '/js-tag.html';
     }
   }
 }]);
@@ -585,60 +597,17 @@ jsTag.directive('autoGrow', ['$timeout', function($timeout) {
         element.css('width', newWidth);
       }
    
-      element.bind('keyup keydown', update);
+      var ngModel = element.attr('ng-model');
+      if (ngModel) {
+        scope.$watch(ngModel, update);
+      } else {
+        element.bind('keyup keydown', update);
+      }
       
       // Update on the first link
       // $timeout is needed because the value of element is updated only after the $digest cycle
       // TODO: Maybe on compile time if we call update we won't need $timeout
       $timeout(update);
-    }
-  }
-}]);
-
-// A directive for Bootstrap's typeahead.
-// If you want to use a different plugin for auto-complete it's easy as writing a directive.
-jsTag.directive('jsTagTypeahead', [function() {
-  return {
-    link: function(scope, element, attrs) {
-      var userTypeaheadOptions = scope.options.typeahead;
-      
-      // Use typeahead only if user sent options
-      if (userTypeaheadOptions !== undefined) {
-        // Decide by element class name if this is the 'edit input' or a 'new input'
-        var isEditElement = element.hasClass("jt-tag-edit");
-        
-        // updater function is called by Bootstrap once the user selects an item.
-        // This function hooks the auto-complete to the inputService.
-        var updaterFunction = function(item) {
-          var inputService = scope.inputService;
-          var tagsCollection = scope.tagsCollection;
-          
-          if (isEditElement) {
-            // User selecting an item is the same as breakcode hit
-            inputService.breakCodeHitOnEdit(tagsCollection);
-            
-            // Will save item on currently editedTag
-            return item;
-          } else {
-            // Save item in input
-            inputService.input = item;
-          
-            // User selecting an item is the same as breakcode hit
-            inputService.breakCodeHit(tagsCollection);
-          }
-          
-          // Allow users to write their own update function
-          if (userTypeaheadOptions.updater !== undefined) {
-            userTypeaheadOptions.updater(item);
-          }
-        }
-        
-        // Take user defined options + our updaterFunction
-        var typeaheadOptions = angular.copy(userTypeaheadOptions);
-				typeaheadOptions.updater = updaterFunction;
-				
-        element.typeahead(typeaheadOptions);
-      }
     }
   }
 }]);
@@ -662,19 +631,19 @@ angular.module("jsTag").run(["$templateCache", function($templateCache) {
     "      </span>\n" +
     "      <span class=\"remove-button\" ng-click=\"tagsCollection.removeTag(this.tag.id)\">{{options.texts.removeSymbol}}</span>\n" +
     "    </span>\n" +
-    "    <input\n" +
-    "      ng-switch-when=\"true\"\n" +
-    "      type=\"text\"\n" +
-    "      class=\"jt-tag-edit\"\n" +
-    "      focus-once\n" +
-    "      ng-blur=\"tagsInputService.onEditTagBlur(tagsCollection, inputService)\"\n" +
-    "      ng-model=\"tag.value\"\n" +
-    "      data-tag-id=\"{{tag.id}}\"\n" +
-    "      ng-keydown=\"inputService.tagInputKeydown(tagsCollection, {$event: $event})\"\n" +
-    "      placeholder=\"{{options.texts.inputPlaceHolder}}\"\n" +
-    "      auto-grow\n" +
-    "      js-tag-typeahead\n" +
-    "      />\n" +
+    "    <span\n" +
+    "      ng-switch-when=\"true\">\n" +
+    "      <input\n" +
+    "        type=\"text\"\n" +
+    "        class=\"jt-tag-edit\"\n" +
+    "        focus-once\n" +
+    "        ng-model=\"tag.value\"\n" +
+    "        data-tag-id=\"{{tag.id}}\"\n" +
+    "        ng-keydown=\"inputService.tagInputKeydown(tagsCollection, {$event: $event})\"\n" +
+    "        placeholder=\"{{options.texts.inputPlaceHolder}}\"\n" +
+    "        auto-grow\n" +
+    "        />\n" +
+    "    </span>\n" +
     "  </span>\n" +
     "  <input\n" +
     "    class=\"jt-tag-new\"\n" +
@@ -685,7 +654,6 @@ angular.module("jsTag").run(["$templateCache", function($templateCache) {
     "    ng-keydown=\"inputService.onKeydown(inputService, tagsCollection, {$event: $event})\"\n" +
     "    placeholder=\"{{options.texts.inputPlaceHolder}}\"\n" +
     "    auto-grow\n" +
-    "    js-tag-typeahead\n" +
     "  />\n" +
     "  <input\n" +
     "    class=\"jt-fake-input\"\n" +

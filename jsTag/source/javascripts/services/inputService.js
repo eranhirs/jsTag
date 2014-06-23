@@ -4,29 +4,28 @@ var jsTag = angular.module('jsTag');
 jsTag.factory('InputService', ['$filter', function($filter) {
   
   // Constructor
-  function InputHandler(options) {
+  function InputService(options) {
     this.input = "";
     this.isWaitingForInput = options.autoFocus || false;
     this.options = options;
-    
-    // If we are working with typeahead, we will let typeahead updater's function call our break function
-    if (options.typeahead !== undefined) {
-      options.cancelNormalBreak = true;
-    }
   }
   
   // *** Events *** //
   
   // Handles an input of a new tag keydown
-  InputHandler.prototype.onKeydown = function(inputHandler, tagsCollection, options) {
+  InputService.prototype.onKeydown = function(inputService, tagsCollection, options) {
     var e = options.$event;
     var keycode = e.which;
+    var $currentTarget = $(e.currentTarget);
   
     // Check if should break by breakcodes && Check if the user didn't cancel normal break
-    if ($filter("inArray")(keycode, this.options.breakCodes) !== false &&
-        !this.options.cancelNormalBreak) {
-      // TODO: Call event instead of calling a method, easier to customize: this.scope.$broadcast("jt.breakCodeHit");
-      inputHandler.breakCodeHit(tagsCollection);
+    if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
+
+      inputService.breakCodeHit(tagsCollection);
+
+      // TODO: Extract bootstrap extension to different file and use events to easly customize
+      //       Move into $watch on this._input, inside typeahead's directive
+      $currentTarget.typeahead('val', '')
     } else {
       switch (keycode) {
         case 9:	// Tab
@@ -34,7 +33,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
           break;
         case 37: // Left arrow
         case 8: // Backspace
-          if (inputHandler.input === "") {
+          if (inputService.input === "") {
             // TODO: Call removing tag event instead of calling a method, easier to customize
             tagsCollection.setLastTagActive();
           }
@@ -45,34 +44,40 @@ jsTag.factory('InputService', ['$filter', function($filter) {
   }
   
   // Handles an input of an edited tag keydown
-  InputHandler.prototype.tagInputKeydown = function(tagsCollection, options) {
+  InputService.prototype.tagInputKeydown = function(tagsCollection, options) {
     var e = options.$event;
     var keycode = e.which;
+    var $currentTarget = $(e.currentTarget);
     
     // Check if should break by breakcodes && Check if the user didn't cancel normal break
-    if ($filter("inArray")(keycode, this.options.breakCodes) !== false &&
-        !this.options.cancelNormalBreak) {
-        this.breakCodeHitOnEdit(tagsCollection);
+    if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
+      this.breakCodeHitOnEdit(tagsCollection);
     }
   }
   
   // *** Methods *** //
   
-  InputHandler.prototype.resetInput = function() {
+  InputService.prototype.resetInput = function() {
     var value = this.input;
     this.input = "";
     return value;
   }
   
   // Sets focus on input
-  InputHandler.prototype.focusInput = function() {
+  InputService.prototype.focusInput = function() {
     this.isWaitingForInput = true;
   }
   
   // breakCodeHit is called when finished creating tag
-  InputHandler.prototype.breakCodeHit = function(tagsCollection) {
+  InputService.prototype.breakCodeHit = function(tagsCollection) {
     if (this.input !== "") {
       var value = this.resetInput();
+      
+      // Input is an object when using typeahead (the key is chosen by the user)
+      if (value instanceof Object)
+      {
+        value = value[Object.keys(value)[0]];
+      }
       
       // Add to tags array
       tagsCollection.addTag(value);
@@ -80,10 +85,16 @@ jsTag.factory('InputService', ['$filter', function($filter) {
   }
   
   // breakCodeHit is called when finished editing tag
-  InputHandler.prototype.breakCodeHitOnEdit = function(tagsCollection) {
+  InputService.prototype.breakCodeHitOnEdit = function(tagsCollection) {
+    // Input is an object when using typeahead (the key is chosen by the user)
+    var editedTag = tagsCollection.getEditedTag();
+    if (editedTag.value instanceof Object) {
+      editedTag.value = editedTag.value[Object.keys(editedTag.value)[0]];
+    }
+  
     tagsCollection.unsetEditedTag();
     this.isWaitingForInput = true;
   };
     
-  return InputHandler;
+  return InputService;
 }]);

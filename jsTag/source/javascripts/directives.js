@@ -6,8 +6,9 @@ jsTag.directive('jsTag', ['$templateCache', function($templateCache) {
     restrict: 'E',
     scope: true,
     controller: 'JSTagMainCtrl',
-    templateUrl: function($element, $attrs, jsTagDefaults) {
-      return 'jsTag/source/templates/default/js-tag.html';
+    templateUrl: function($element, $attrs) {
+      var mode = $attrs.jsTagMode || "default";
+      return 'jsTag/source/templates/' + mode + '/js-tag.html';
     }
   }
 }]);
@@ -107,60 +108,17 @@ jsTag.directive('autoGrow', ['$timeout', function($timeout) {
         element.css('width', newWidth);
       }
    
-      element.bind('keyup keydown', update);
+      var ngModel = element.attr('ng-model');
+      if (ngModel) {
+        scope.$watch(ngModel, update);
+      } else {
+        element.bind('keyup keydown', update);
+      }
       
       // Update on the first link
       // $timeout is needed because the value of element is updated only after the $digest cycle
       // TODO: Maybe on compile time if we call update we won't need $timeout
       $timeout(update);
-    }
-  }
-}]);
-
-// A directive for Bootstrap's typeahead.
-// If you want to use a different plugin for auto-complete it's easy as writing a directive.
-jsTag.directive('jsTagTypeahead', [function() {
-  return {
-    link: function(scope, element, attrs) {
-      var userTypeaheadOptions = scope.options.typeahead;
-      
-      // Use typeahead only if user sent options
-      if (userTypeaheadOptions !== undefined) {
-        // Decide by element class name if this is the 'edit input' or a 'new input'
-        var isEditElement = element.hasClass("jt-tag-edit");
-        
-        // updater function is called by Bootstrap once the user selects an item.
-        // This function hooks the auto-complete to the inputService.
-        var updaterFunction = function(item) {
-          var inputService = scope.inputService;
-          var tagsCollection = scope.tagsCollection;
-          
-          if (isEditElement) {
-            // User selecting an item is the same as breakcode hit
-            inputService.breakCodeHitOnEdit(tagsCollection);
-            
-            // Will save item on currently editedTag
-            return item;
-          } else {
-            // Save item in input
-            inputService.input = item;
-          
-            // User selecting an item is the same as breakcode hit
-            inputService.breakCodeHit(tagsCollection);
-          }
-          
-          // Allow users to write their own update function
-          if (userTypeaheadOptions.updater !== undefined) {
-            userTypeaheadOptions.updater(item);
-          }
-        }
-        
-        // Take user defined options + our updaterFunction
-        var typeaheadOptions = angular.copy(userTypeaheadOptions);
-				typeaheadOptions.updater = updaterFunction;
-				
-        element.typeahead(typeaheadOptions);
-      }
     }
   }
 }]);

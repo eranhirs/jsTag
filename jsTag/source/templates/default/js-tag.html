@@ -15,19 +15,19 @@
       </span>
       <span class="remove-button" ng-click="tagsCollection.removeTag(this.tag.id)">{{options.texts.removeSymbol}}</span>
     </span>
-    <input
-      ng-switch-when="true"
-      type="text"
-      class="jt-tag-edit"
-      focus-once
-      ng-blur="tagsInputService.onEditTagBlur(tagsCollection, inputService)"
-      ng-model="tag.value"
-      data-tag-id="{{tag.id}}"
-      ng-keydown="inputService.tagInputKeydown(tagsCollection, {$event: $event})"
-      placeholder="{{options.texts.inputPlaceHolder}}"
-      auto-grow
-      js-tag-typeahead
-      />
+    <span
+      ng-switch-when="true">
+      <input
+        type="text"
+        class="jt-tag-edit"
+        focus-once
+        ng-model="tag.value"
+        data-tag-id="{{tag.id}}"
+        ng-keydown="inputService.tagInputKeydown(tagsCollection, {$event: $event})"
+        placeholder="{{options.texts.inputPlaceHolder}}"
+        auto-grow
+        />
+    </span>
   </span>
   <input
     class="jt-tag-new"
@@ -38,7 +38,6 @@
     ng-keydown="inputService.onKeydown(inputService, tagsCollection, {$event: $event})"
     placeholder="{{options.texts.inputPlaceHolder}}"
     auto-grow
-    js-tag-typeahead
   />
   <input
     class="jt-fake-input"

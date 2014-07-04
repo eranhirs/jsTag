@@ -59,7 +59,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <a href="https://github.com/eranhirs/jsTag/tree/master" target="_blank">
+              <a href="https://github.com/eranhirs/jsTag/" target="_blank">
                 <i class="fa fa-github"></i>&nbsp;View on GitHub
               </a>
             </li>
@@ -80,8 +80,13 @@
           <div class="bs-sidebar" id="sidebar" data-spy="affix" data-offset-top="205">
             <ul class="nav bs-sidenav">
               <li class="active">
-                <a href="#demo">
-                  Demo
+                <a href="#getting-started">
+                  Getting started
+                </a>
+              </li>
+              <li>
+                <a href="#how-to-use">
+                  How to use?
                 </a>
               </li>
               <li>
@@ -99,17 +104,29 @@
         </div>
         <div class="col-md-10">
           <div>
-            <h1 id="demo">Demo</h1>
+            <h1 id="getting-started">Getting started</h1>
             <h3>Always</h3>
-            You always have to add jsTag as a dependency to your app. My app is named "demoApp", so it looks like this: <br/>
-            <code class="js"><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'demoApp'</span><span class="p">, [</span><span class="s1">'jsTag'</span><span class="p">]);</span></code>
+            <ol>
+              <li>Add references to <a href="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js">AngularJS</a>.</li>
+              <li>Add references to <a href="https://github.com/eranhirs/jsTag/">jsTag</a>'s javascript and css files.</li>
+              <li>Add jsTag as a dependency to your app. My app is named "demoApp", so it looks like this: <br>
+                <code class="js"><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'demoApp'</span><span class="p">, [</span><span class="s1">'jsTag'</span><span class="p">]);</span></code>
+              </li>
+            </ol>
+            <h3>Show off</h3>
+            Here is a full example of jsTag together with <a href="http://twitter.github.io/typeahead.js/">twitter's typeahead</a>.<br/>
+            <div class="bs-example" id="full-example">
+              <div ng-controller="TypeaheadController">
+                <js-tag js-tag-mode="typeahead" js-tag-options="jsTagOptions"></js-tag>
+                Number of tags: {{tags.getNumberOfTags()}}
+              </div>
+            </div>
+            <h1 id="how-to-use">How to use?</h1>
             <h3>Basic</h3>
             After adding jsTag as a depedency, you can easily achieve:
             <div class="bs-example">
               <div id="basicDemo">
-                <js-tag js-tag-options='{
-                  "autoFocus": true
-                }'></js-tag>
+                <js-tag></js-tag>
               </div>
               <div class="highlight">
                 <span class="example-lang"><span class="example-lang">Html</span></span>
@@ -208,8 +225,14 @@
             </div>
 					</div>
           <h3>Twitter's typeahead</h3>
-          Here is an example how to use <a href="http://twitter.github.io/typeahead.js/">twitter's typeahead</a> together with jsTag.<br/>
-          You must use <a href="https://github.com/Siyfion/angular-typeahead">angular-typeahead</a> for this to work.<br/>
+          Here is an advanced example how to use twitter's typeahead together with jsTag.<br/>
+          <ol>
+            <li>Add references to <a href="https://github.com/Siyfion/angular-typeahead">angular-typeahead</a>.</li>
+            <li>Add references to <a href="http://twitter.github.io/typeahead.js/">twitter's typeahead</a>.</li>
+            <li>Add angular-typeahead as a dependency to your app. My app is named "demoApp", so it looks like this: <br>
+              <code class="js"><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'demoApp'</span><span class="p">, [</span><span class="s1">'siyfion.sfTypeahead'</span>,<span class="s1">'jsTag'</span><span class="p">]);</span></code>
+            </li>
+          </ol>
           <div class="bs-example" id="typeaheadDemo">
             <div ng-controller="TypeaheadController">
               <js-tag js-tag-mode="typeahead" js-tag-options="jsTagOptions"></js-tag>

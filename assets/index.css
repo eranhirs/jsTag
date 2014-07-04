@@ -22,6 +22,10 @@ body {
   margin-top: 0px;
 }
 
+#full-example {
+  margin-bottom: 60px;
+}
+
 em {
   font-weight: bold;
   font-style: initial;

@@ -1,6 +1,6 @@
 jsTag
 =====
-Open source project for editing tags (aka tokenizer) based on angularJS.
+This is an open source Angular Editing Tags project.
 
 Demo
 ----

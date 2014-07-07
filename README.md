@@ -1,6 +1,6 @@
 jsTag
 =====
-This is an open source Angular Tags project.
+Javascript Tags project based on AngularJS
 
 Demo
 ----

@@ -18,7 +18,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
     var keycode = e.which;
     var $currentTarget = $(e.currentTarget);
   
-    // Check if should break by breakcodes && Check if the user didn't cancel normal break
+    // Check if should break by breakcodes
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
 
       inputService.breakCodeHit(tagsCollection);
@@ -49,7 +49,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
     var keycode = e.which;
     var $currentTarget = $(e.currentTarget);
     
-    // Check if should break by breakcodes && Check if the user didn't cancel normal break
+    // Check if should break by breakcodes
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
       this.breakCodeHitOnEdit(tagsCollection);
     }

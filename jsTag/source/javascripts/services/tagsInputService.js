@@ -4,6 +4,7 @@ var jsTag = angular.module('jsTag');
 jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, JSTagsCollection) {
   // Constructor
   function TagsHandler(options) {
+    this.options = options;
     var tags = options.tags;
     
     // Received ready JSTagsCollection
@@ -25,13 +26,16 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
   };
   
   TagsHandler.prototype.tagDblClicked = function(tag) {
-    // Set tag as edit
-    this.tagsCollection.setEditedTag(tag);
+    var editAllowed = this.options.edit;
+    if (editAllowed) {
+      // Set tag as edit
+      this.tagsCollection.setEditedTag(tag);
+    }
   };
   
   // Keydown was pressed while a tag was active.
   // Important Note: The target of the event is actually a fake input used to capture the keydown.
-  TagsHandler.prototype.onActiveTagKeydown = function(inputHandler, options) {
+  TagsHandler.prototype.onActiveTagKeydown = function(inputService, options) {
     var activeTag = this.tagsCollection.getActiveTag();
     
     // Do nothing in unexpected situations
@@ -49,13 +53,16 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
       
       switch (e.which) {
         case 13: // Return
-          blurActiveTag.apply(this);
-          this.tagsCollection.setEditedTag(activeTag);
+          var editAllowed = this.options.edit;
+          if (editAllowed) {
+            blurActiveTag.apply(this);
+            this.tagsCollection.setEditedTag(activeTag);
+          }
           
           break;
         case 8: // Backspace
           this.tagsCollection.removeTag(activeTag.id);
-          inputHandler.isWaitingForInput = true;
+          inputService.isWaitingForInput = true;
           
           break;
         case 37: // Left arrow
@@ -71,7 +78,7 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
           if (nextTag !== activeTag) {
             this.tagsCollection.setActiveTag(nextTag);
           } else {
-            inputHandler.isWaitingForInput = true;
+            inputService.isWaitingForInput = true;
           }
           
           break;
@@ -94,7 +101,7 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
   }
   
   // Jumps when an edited tag calls blur event
-  TagsHandler.prototype.onEditTagBlur = function(tagsCollection, inputHandler) {
+  TagsHandler.prototype.onEditTagBlur = function(tagsCollection, inputService) {
     tagsCollection.unsetEditedTag();
     this.isWaitingForInput = true;
   }

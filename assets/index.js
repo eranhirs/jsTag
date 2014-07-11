@@ -11,11 +11,20 @@ demoApp.controller('MoreControlController', ['$scope', 'JSTagsCollection', funct
 }]);
 
 demoApp.controller('CustomizedController', ['$scope', function($scope) {
+  // Export jsTag's options
   $scope.jsTagOptions = {
     "texts": {
       "inputPlaceHolder": "Type text here"
     },
     "defaultTags": ["Default Tag #1", "Default Tag #2"]
+  };
+}]);
+
+demoApp.controller('NoneditableController', ['$scope', function($scope) {
+  // Export jsTag's options
+  $scope.jsTagOptions = {
+    'edit': false,
+    'defaultTags': ['Default Tag #1', 'Default Tag #2']
   };
 }]);
 

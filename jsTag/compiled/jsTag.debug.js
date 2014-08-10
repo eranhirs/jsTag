@@ -2,7 +2,7 @@
 * jsTag JavaScript Library - Editing tags based on angularJS 
 * Git: https://github.com/eranhirs/jsTag/tree/master
 * License: MIT (http://www.opensource.org/licenses/mit-license.php)
-* Compiled At: 07/11/2014 15:16
+* Compiled At: 08/10/2014 18:10
 **************************************************/
 'use strict';
 var jsTag = angular.module('jsTag', []);
@@ -15,6 +15,7 @@ jsTag.constant('jsTagDefaults', {
     13, // Return
     44 // Comma
   ],
+  'splitter': ',',
   'texts': {
     'inputPlaceHolder': "Input text",
     'removeSymbol': String.fromCharCode(215)
@@ -265,7 +266,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
     // Check if should break by breakcodes
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
 
-      inputService.breakCodeHit(tagsCollection);
+      inputService.breakCodeHit(tagsCollection, this.options);
 
       // TODO: Extract bootstrap extension to different file and use events to easly customize
       //       Move into $watch on this._input, inside typeahead's directive
@@ -313,18 +314,24 @@ jsTag.factory('InputService', ['$filter', function($filter) {
   }
   
   // breakCodeHit is called when finished creating tag
-  InputService.prototype.breakCodeHit = function(tagsCollection) {
+  InputService.prototype.breakCodeHit = function(tagsCollection, options) {
     if (this.input !== "") {
-      var value = this.resetInput();
+      var originalValue = this.resetInput();
       
       // Input is an object when using typeahead (the key is chosen by the user)
-      if (value instanceof Object)
+      if (originalValue instanceof Object)
       {
-        value = value[Object.keys(value)[0]];
+        originalValue = originalValue[Object.keys(originalValue)[0]];
       }
       
-      // Add to tags array
-      tagsCollection.addTag(value);
+      // Split value by spliter (usually ,)
+      var values = originalValue.split(options.splitter);
+      
+      // Add tags to collection
+      for (var key in values) {
+        var value = values[key];
+        tagsCollection.addTag(value);
+      }
     }
   }
   

@@ -8,6 +8,7 @@ jsTag.constant('jsTagDefaults', {
     13, // Return
     44 // Comma
   ],
+  'splitter': ',',
   'texts': {
     'inputPlaceHolder': "Input text",
     'removeSymbol': String.fromCharCode(215)

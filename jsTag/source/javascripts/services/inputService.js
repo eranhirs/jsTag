@@ -21,7 +21,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
     // Check if should break by breakcodes
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
 
-      inputService.breakCodeHit(tagsCollection);
+      inputService.breakCodeHit(tagsCollection, this.options);
 
       // TODO: Extract bootstrap extension to different file and use events to easly customize
       //       Move into $watch on this._input, inside typeahead's directive
@@ -69,18 +69,24 @@ jsTag.factory('InputService', ['$filter', function($filter) {
   }
   
   // breakCodeHit is called when finished creating tag
-  InputService.prototype.breakCodeHit = function(tagsCollection) {
+  InputService.prototype.breakCodeHit = function(tagsCollection, options) {
     if (this.input !== "") {
-      var value = this.resetInput();
+      var originalValue = this.resetInput();
       
       // Input is an object when using typeahead (the key is chosen by the user)
-      if (value instanceof Object)
+      if (originalValue instanceof Object)
       {
-        value = value[Object.keys(value)[0]];
+        originalValue = originalValue[Object.keys(originalValue)[0]];
       }
       
-      // Add to tags array
-      tagsCollection.addTag(value);
+      // Split value by spliter (usually ,)
+      var values = originalValue.split(options.splitter);
+      
+      // Add tags to collection
+      for (var key in values) {
+        var value = values[key];
+        tagsCollection.addTag(value);
+      }
     }
   }
   

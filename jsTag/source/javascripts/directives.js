@@ -122,3 +122,19 @@ jsTag.directive('autoGrow', ['$timeout', function($timeout) {
     }
   }
 }]);
+
+// Small directive for twitter's typeahead
+jsTag.directive('jsTagTypeahead', function () {
+  return {
+    restrict: 'A', // Only apply on an attribute or class  
+    require: '?ngModel',  // The two-way data bound value that is returned by the directive
+    link: function (scope, element, attrs, ngModel) {
+      
+      element.bind('jsTag:breakcodeHit', function(event) {
+        // Tell typeahead to remove the value (after it was also removed in input)
+        $(event.currentTarget).typeahead('val', '');
+      });
+      
+    }
+  };
+});

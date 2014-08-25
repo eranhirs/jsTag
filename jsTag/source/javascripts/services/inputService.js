@@ -16,16 +16,15 @@ jsTag.factory('InputService', ['$filter', function($filter) {
   InputService.prototype.onKeydown = function(inputService, tagsCollection, options) {
     var e = options.$event;
     var keycode = e.which;
-    var $currentTarget = $(e.currentTarget);
   
     // Check if should break by breakcodes
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
 
       inputService.breakCodeHit(tagsCollection, this.options);
 
-      // TODO: Extract bootstrap extension to different file and use events to easly customize
-      //       Move into $watch on this._input, inside typeahead's directive
-      $currentTarget.typeahead('val', '')
+      // Trigger breakcodeHit event allowing extensions (used in twitter's typeahead directive)
+      var $element = angular.element(e.currentTarget);
+      $element.trigger('jsTag:breakcodeHit');
     } else {
       switch (keycode) {
         case 9:	// Tab
@@ -47,7 +46,6 @@ jsTag.factory('InputService', ['$filter', function($filter) {
   InputService.prototype.tagInputKeydown = function(tagsCollection, options) {
     var e = options.$event;
     var keycode = e.which;
-    var $currentTarget = $(e.currentTarget);
     
     // Check if should break by breakcodes
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {

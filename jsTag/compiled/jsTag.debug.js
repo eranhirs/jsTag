@@ -2,7 +2,7 @@
 * jsTag JavaScript Library - Editing tags based on angularJS 
 * Git: https://github.com/eranhirs/jsTag/tree/master
 * License: MIT (http://www.opensource.org/licenses/mit-license.php)
-* Compiled At: 08/10/2014 18:10
+* Compiled At: 08/25/2014 19:11
 **************************************************/
 'use strict';
 var jsTag = angular.module('jsTag', []);
@@ -261,16 +261,15 @@ jsTag.factory('InputService', ['$filter', function($filter) {
   InputService.prototype.onKeydown = function(inputService, tagsCollection, options) {
     var e = options.$event;
     var keycode = e.which;
-    var $currentTarget = $(e.currentTarget);
   
     // Check if should break by breakcodes
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
 
       inputService.breakCodeHit(tagsCollection, this.options);
 
-      // TODO: Extract bootstrap extension to different file and use events to easly customize
-      //       Move into $watch on this._input, inside typeahead's directive
-      $currentTarget.typeahead('val', '')
+      // Trigger breakcodeHit event allowing extensions (used in twitter's typeahead directive)
+      var $element = angular.element(e.currentTarget);
+      $element.trigger('jsTag:breakcodeHit');
     } else {
       switch (keycode) {
         case 9:	// Tab
@@ -292,7 +291,6 @@ jsTag.factory('InputService', ['$filter', function($filter) {
   InputService.prototype.tagInputKeydown = function(tagsCollection, options) {
     var e = options.$event;
     var keycode = e.which;
-    var $currentTarget = $(e.currentTarget);
     
     // Check if should break by breakcodes
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
@@ -626,6 +624,22 @@ jsTag.directive('autoGrow', ['$timeout', function($timeout) {
     }
   }
 }]);
+
+// Small directive for twitter's typeahead
+jsTag.directive('jsTagTypeahead', function () {
+  return {
+    restrict: 'A', // Only apply on an attribute or class  
+    require: '?ngModel',  // The two-way data bound value that is returned by the directive
+    link: function (scope, element, attrs, ngModel) {
+      
+      element.bind('jsTag:breakcodeHit', function(event) {
+        // Tell typeahead to remove the value (after it was also removed in input)
+        $(event.currentTarget).typeahead('val', '');
+      });
+      
+    }
+  };
+});
 angular.module("jsTag").run(["$templateCache", function($templateCache) {
 
   $templateCache.put("jsTag/source/templates/default/js-tag.html",
@@ -723,6 +737,7 @@ angular.module("jsTag").run(["$templateCache", function($templateCache) {
     "    auto-grow\n" +
     "    options=\"exampleOptions\" datasets=\"exampleData\"\n" +
     "    sf-typeahead\n" +
+    "    js-tag-typeahead\n" +
     "  />\n" +
     "  <input\n" +
     "    class=\"jt-fake-input\"\n" +

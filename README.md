@@ -1,6 +1,7 @@
 jsTag
 =====
-Javascript Tags project based on AngularJS
+Input Tags project based on pure AngularJS.
+The main perk in jsTag is the ease to customize, plus jsTag uses [twitter's typeahead] (http://twitter.github.io/typeahead.js/ "Twitter's typeahead github").
 
 Demo
 ----
@@ -15,7 +16,7 @@ Features
  * Editing tags
  * Integration with [Twitter's typeahead](http://twitter.github.io/typeahead.js/ "Twitter's typeahead github")
  * Tags are binded to javascript
- * Easy to customizae
+ * Easy to customize for your own needs!
 
 About
 -----

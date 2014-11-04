@@ -1,6 +1,6 @@
 jsTag
 =====
-Input Tags project based on pure AngularJS.
+Pure Angular Input Tags project.
 
 Demo
 ----

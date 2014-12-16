@@ -82,6 +82,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
 
       // Add tags to collection
       for (var key in values) {
+        if ( ! values.hasOwnProperty(key)) continue;  // for IE 8
         var value = values[key];
         tagsCollection.addTag(value);
       }

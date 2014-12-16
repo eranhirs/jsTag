@@ -2,7 +2,7 @@
 * jsTag JavaScript Library - Editing tags based on angularJS 
 * Git: https://github.com/eranhirs/jsTag/tree/master
 * License: MIT (http://www.opensource.org/licenses/mit-license.php)
-* Compiled At: 12/16/2014 11:02
+* Compiled At: 12/16/2014 11:50
 **************************************************/
 'use strict';
 var jsTag = angular.module('jsTag', []);
@@ -247,21 +247,21 @@ var jsTag = angular.module('jsTag');
 
 // This service handles everything related to input (when to focus input, key pressing, breakcodeHit).
 jsTag.factory('InputService', ['$filter', function($filter) {
-  
+
   // Constructor
   function InputService(options) {
     this.input = "";
     this.isWaitingForInput = options.autoFocus || false;
     this.options = options;
   }
-  
+
   // *** Events *** //
-  
+
   // Handles an input of a new tag keydown
   InputService.prototype.onKeydown = function(inputService, tagsCollection, options) {
     var e = options.$event;
     var keycode = e.which;
-  
+
     // Check if should break by breakcodes
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
 
@@ -273,7 +273,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
     } else {
       switch (keycode) {
         case 9:	// Tab
-          
+
           break;
         case 37: // Left arrow
         case 8: // Backspace
@@ -281,72 +281,74 @@ jsTag.factory('InputService', ['$filter', function($filter) {
             // TODO: Call removing tag event instead of calling a method, easier to customize
             tagsCollection.setLastTagActive();
           }
-          
+
           break;
       }
     }
   }
-  
+
   // Handles an input of an edited tag keydown
   InputService.prototype.tagInputKeydown = function(tagsCollection, options) {
     var e = options.$event;
     var keycode = e.which;
-    
+
     // Check if should break by breakcodes
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
-      this.breakCodeHitOnEdit(tagsCollection);
+      this.breakCodeHitOnEdit(tagsCollection, options);
     }
   }
-  
+
   // *** Methods *** //
-  
+
   InputService.prototype.resetInput = function() {
     var value = this.input;
     this.input = "";
     return value;
   }
-  
+
   // Sets focus on input
   InputService.prototype.focusInput = function() {
     this.isWaitingForInput = true;
   }
-  
+
   // breakCodeHit is called when finished creating tag
   InputService.prototype.breakCodeHit = function(tagsCollection, options) {
     if (this.input !== "") {
       var originalValue = this.resetInput();
-      
+
       // Input is an object when using typeahead (the key is chosen by the user)
       if (originalValue instanceof Object)
       {
-        originalValue = originalValue[Object.keys(originalValue)[0]];
+        originalValue = originalValue[options.tagDisplayKey || Object.keys(originalValue)[0]];
       }
-      
+
       // Split value by spliter (usually ,)
       var values = originalValue.split(options.splitter);
-      
+
       // Add tags to collection
       for (var key in values) {
+        if ( ! values.hasOwnProperty(key)) continue;  // for IE 8
         var value = values[key];
         tagsCollection.addTag(value);
       }
     }
   }
-  
+
   // breakCodeHit is called when finished editing tag
-  InputService.prototype.breakCodeHitOnEdit = function(tagsCollection) {
+  InputService.prototype.breakCodeHitOnEdit = function(tagsCollection, options) {
     // Input is an object when using typeahead (the key is chosen by the user)
     var editedTag = tagsCollection.getEditedTag();
     if (editedTag.value instanceof Object) {
-      editedTag.value = editedTag.value[Object.keys(editedTag.value)[0]];
+      editedTag.value = editedTag.value[options.tagDisplayKey || Object.keys(editedTag.value)[0]];
     }
-  
+
     tagsCollection.unsetEditedTag();
     this.isWaitingForInput = true;
   };
-    
+
   return InputService;
 }]);
+
 var jsTag = angular.module('jsTag');
 
 // TagsCollection Model
@@ -355,9 +357,9 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
   function TagsHandler(options) {
     this.options = options;
     var tags = options.tags;
-    
+
     // Received ready JSTagsCollection
-    if (tags && tags.__proto__ === JSTagsCollection.prototype) {
+    if (tags && Object.getPrototypeOf(tags) === JSTagsCollection.prototype) {
       this.tagsCollection = tags;
     }
     // Received array with default tags or did not receive tags
@@ -367,13 +369,13 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
     }
     this.shouldBlurActiveTag = true;
   }
-  
+
   // *** Methods *** //
-  
+
   TagsHandler.prototype.tagClicked = function(tag) {
     this.tagsCollection.setActiveTag(tag);
   };
-  
+
   TagsHandler.prototype.tagDblClicked = function(tag) {
     var editAllowed = this.options.edit;
     if (editAllowed) {
@@ -381,16 +383,16 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
       this.tagsCollection.setEditedTag(tag);
     }
   };
-  
+
   // Keydown was pressed while a tag was active.
   // Important Note: The target of the event is actually a fake input used to capture the keydown.
   TagsHandler.prototype.onActiveTagKeydown = function(inputService, options) {
     var activeTag = this.tagsCollection.getActiveTag();
-    
+
     // Do nothing in unexpected situations
     if (activeTag !== null) {
       var e = options.$event;
-      
+
       // Mimics blur of the active tag though the focus is on the input.
       // This will cause expected features like unseting active tag
       var blurActiveTag = function() {
@@ -399,7 +401,7 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
           this.onActiveTagBlur(options);
         }
       };
-      
+
       switch (e.which) {
         case 13: // Return
           var editAllowed = this.options.edit;
@@ -407,34 +409,34 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
             blurActiveTag.apply(this);
             this.tagsCollection.setEditedTag(activeTag);
           }
-          
+
           break;
         case 8: // Backspace
           this.tagsCollection.removeTag(activeTag.id);
           inputService.isWaitingForInput = true;
-          
+
           break;
         case 37: // Left arrow
           blurActiveTag.apply(this);
           var previousTag = this.tagsCollection.getPreviousTag(activeTag);
           this.tagsCollection.setActiveTag(previousTag);
-            
-          break;					
+
+          break;
         case 39: // Right arrow
           blurActiveTag.apply(this);
-          
+
           var nextTag = this.tagsCollection.getNextTag(activeTag);
           if (nextTag !== activeTag) {
             this.tagsCollection.setActiveTag(nextTag);
           } else {
             inputService.isWaitingForInput = true;
           }
-          
+
           break;
       }
     }
   }
-  
+
   // Jumps when active tag calls blur event.
   // Because the focus is not on the tag's div itself but a fake input,
   // this is called also when clicking the active tag.
@@ -442,21 +444,22 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
   // It is also called when entering edit mode (ex. when pressing enter while active, it will call blur)
   TagsHandler.prototype.onActiveTagBlur = function(options) {
     var activeTag = this.tagsCollection.getActiveTag();
-    
+
     // Do nothing in unexpected situations
     if (activeTag !== null) {
       this.tagsCollection.unsetActiveTag(activeTag);
     }
   }
-  
+
   // Jumps when an edited tag calls blur event
   TagsHandler.prototype.onEditTagBlur = function(tagsCollection, inputService) {
     tagsCollection.unsetEditedTag();
     this.isWaitingForInput = true;
   }
-  
+
   return TagsHandler;
 }]);
+
 var jsTag = angular.module('jsTag');
 var jsTag = angular.module('jsTag');
 

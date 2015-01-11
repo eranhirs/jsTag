@@ -32,7 +32,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
           break;
         case 37: // Left arrow
         case 8: // Backspace
-          if (inputService.input == null || inputService.input === "") {
+          if (inputService.input === null || inputService.input === undefined || inputService.input === "") {
             // TODO: Call removing tag event instead of calling a method, easier to customize
             tagsCollection.setLastTagActive();
           }

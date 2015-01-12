@@ -17,6 +17,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
     var e = options.$event;
     var keycode = e.which;
     var value = $(e.currentTarget).typeahead('val');
+    var valueIsEmpty = (value === null || value === undefined || value === "");
 
     // Check if should break by breakcodes
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
@@ -26,6 +27,12 @@ jsTag.factory('InputService', ['$filter', function($filter) {
       // Trigger breakcodeHit event allowing extensions (used in twitter's typeahead directive)
       var $element = angular.element(e.currentTarget);
       $element.trigger('jsTag:breakcodeHit');
+
+      // Do not trigger form submit if value is not empty.
+      if (!valueIsEmpty) {
+        options.$event.preventDefault();
+      }
+
     } else {
       switch (keycode) {
         case 9:	// Tab
@@ -33,7 +40,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
           break;
         case 37: // Left arrow
         case 8: // Backspace
-          if (value === null || value === undefined || value === "") {
+          if (valueIsEmpty) {
             // TODO: Call removing tag event instead of calling a method, easier to customize
             tagsCollection.setLastTagActive();
           }

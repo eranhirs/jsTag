@@ -2,7 +2,7 @@
 * jsTag JavaScript Library - Editing tags based on angularJS 
 * Git: https://github.com/eranhirs/jsTag/tree/master
 * License: MIT (http://www.opensource.org/licenses/mit-license.php)
-* Compiled At: 01/12/2015 10:38
+* Compiled At: 01/12/2015 12:11
 **************************************************/
 'use strict';
 var jsTag = angular.module('jsTag', []);
@@ -637,6 +637,13 @@ jsTag.directive('jsTagTypeahead', function () {
     link: function (scope, element, attrs, ngModel) {
       
       element.bind('jsTag:breakcodeHit', function(event) {
+
+        /* Do not clear typeahead input if typeahead option 'editable' is set to false
+         * so custom tags are not allowed and breakcode hit shouldn't trigger any change. */
+        if (scope.$eval(attrs.options).editable === false) {
+          return;
+        }
+
         // Tell typeahead to remove the value (after it was also removed in input)
         $(event.currentTarget).typeahead('val', '');
       });
@@ -644,6 +651,7 @@ jsTag.directive('jsTagTypeahead', function () {
     }
   };
 });
+
 angular.module("jsTag").run(["$templateCache", function($templateCache) {
 
   $templateCache.put("jsTag/source/templates/default/js-tag.html",

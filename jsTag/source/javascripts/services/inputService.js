@@ -16,6 +16,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
   InputService.prototype.onKeydown = function(inputService, tagsCollection, options) {
     var e = options.$event;
     var keycode = e.which;
+    var value = $(e.currentTarget).typeahead('val');
 
     // Check if should break by breakcodes
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
@@ -32,7 +33,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
           break;
         case 37: // Left arrow
         case 8: // Backspace
-          if (inputService.input === null || inputService.input === undefined || inputService.input === "") {
+          if (value === null || value === undefined || value === "") {
             // TODO: Call removing tag event instead of calling a method, easier to customize
             tagsCollection.setLastTagActive();
           }

@@ -2,7 +2,7 @@
 * jsTag JavaScript Library - Editing tags based on angularJS 
 * Git: https://github.com/eranhirs/jsTag/tree/master
 * License: MIT (http://www.opensource.org/licenses/mit-license.php)
-* Compiled At: 01/11/2015 18:23
+* Compiled At: 01/12/2015 10:38
 **************************************************/
 'use strict';
 var jsTag = angular.module('jsTag', []);
@@ -261,6 +261,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
   InputService.prototype.onKeydown = function(inputService, tagsCollection, options) {
     var e = options.$event;
     var keycode = e.which;
+    var value = $(e.currentTarget).typeahead('val');
 
     // Check if should break by breakcodes
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
@@ -277,7 +278,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
           break;
         case 37: // Left arrow
         case 8: // Backspace
-          if (inputService.input === null || inputService.input === undefined || inputService.input === "") {
+          if (value === null || value === undefined || value === "") {
             // TODO: Call removing tag event instead of calling a method, easier to customize
             tagsCollection.setLastTagActive();
           }

@@ -15,8 +15,16 @@ jsTag.factory('InputService', ['$filter', function($filter) {
   // Handles an input of a new tag keydown
   InputService.prototype.onKeydown = function(inputService, tagsCollection, options) {
     var e = options.$event;
+    var element = angular.element(e.currentTarget);
     var keycode = e.which;
-    var value = $(e.currentTarget).typeahead('val');
+    // In order to know how to handle a breakCode or a backspace, we must know if the typeahead
+    // input value is empty or not. e.g. if user hits backspace and typeahead input is not empty
+    // then we have nothing to do as user si not trying to remove a tag but simply tries to
+    // delete some character in typeahead's input.
+    // To know the value in the typeahead input, we can't use `this.input` because when
+    // typeahead is in uneditable mode, the model (i.e. `this.input`) is not updated and is set
+    // to undefined. So we have to fetch the value directly from the typeahead input element.
+    var value = (element.typeahead !== undefined) ? element.typeahead('val') : this.input;
     var valueIsEmpty = (value === null || value === undefined || value === "");
 
     // Check if should break by breakcodes
@@ -30,7 +38,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
 
       // Do not trigger form submit if value is not empty.
       if (!valueIsEmpty) {
-        options.$event.preventDefault();
+        e.preventDefault();
       }
 
     } else {

@@ -2,7 +2,7 @@
 * jsTag JavaScript Library - Editing tags based on angularJS 
 * Git: https://github.com/eranhirs/jsTag/tree/master
 * License: MIT (http://www.opensource.org/licenses/mit-license.php)
-* Compiled At: 01/17/2015 15:05
+* Compiled At: 01/17/2015 15:11
 **************************************************/
 'use strict';
 var jsTag = angular.module('jsTag', []);
@@ -76,7 +76,10 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
       var defaultTagValue = defaultTags[defaultTagKey];
       this.addTag(defaultTagValue);
     }
-    
+   
+    this._onAddListenerList = [];
+    this._onRemoveListenerList = [];
+ 
     this.unsetActiveTags();
     this.unsetEditedTag();
   }
@@ -92,12 +95,27 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
   
     var newTag = new JSTag(value, tagIndex);
     this.tags[tagIndex] = newTag;
+    angular.forEach(this._onAddListenerList, function (callback) {
+      callback(newTag);
+    });
   }
   
   // Removes the received tag
   JSTagsCollection.prototype.removeTag = function(tagIndex) {
+    var tag = this.tags[tagIndex];
     delete this.tags[tagIndex];
+    angular.forEach(this._onRemoveListenerList, function (callback) {
+      callback(tag);
+    });
   }
+
+  JSTagsCollection.prototype.onAdd = function onAdd(callback) {
+    this._onAddListenerList.push(callback);
+  };
+
+  JSTagsCollection.prototype.onRemove = function onRemove(callback) {
+    this._onRemoveListenerList.push(callback);
+  };
 
   // Returns the number of tags in collection
   JSTagsCollection.prototype.getNumberOfTags = function() {
@@ -243,6 +261,7 @@ function getPreviousProperty(obj, propertyId) {
   var keyOfPreviousProperty = keys[indexOfProperty - 1];
   return obj[keyOfPreviousProperty];
 }
+
 var jsTag = angular.module('jsTag');
 
 // This service handles everything related to input (when to focus input, key pressing, breakcodeHit).

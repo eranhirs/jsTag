@@ -2,7 +2,7 @@
 * jsTag JavaScript Library - Editing tags based on angularJS 
 * Git: https://github.com/eranhirs/jsTag/tree/master
 * License: MIT (http://www.opensource.org/licenses/mit-license.php)
-* Compiled At: 01/17/2015 15:01
+* Compiled At: 01/17/2015 15:05
 **************************************************/
 'use strict';
 var jsTag = angular.module('jsTag', []);
@@ -677,14 +677,14 @@ angular.module("jsTag").run(["$templateCache", function($templateCache) {
     "    ng-switch=\"tagsCollection.isTagEdited(tag)\">\n" +
     "    <span\n" +
     "      ng-switch-when=\"false\"\n" +
-    "      class=\"jt-tag active-{{tagsCollection.isTagActive(this.tag)}}\">\n" +
+    "      class=\"jt-tag active-{{tagsCollection.isTagActive(tag)}}\">\n" +
     "      <span\n" +
     "        class=\"value\"\n" +
-    "        ng-click=\"tagsInputService.tagClicked(this.tag)\"\n" +
-    "        ng-dblclick=\"tagsInputService.tagDblClicked(this.tag)\">\n" +
+    "        ng-click=\"tagsInputService.tagClicked(tag)\"\n" +
+    "        ng-dblclick=\"tagsInputService.tagDblClicked(tag)\">\n" +
     "        {{tag.value}}\n" +
     "      </span>\n" +
-    "      <span class=\"remove-button\" ng-click=\"tagsCollection.removeTag(this.tag.id)\">{{options.texts.removeSymbol}}</span>\n" +
+    "      <span class=\"remove-button\" ng-click=\"tagsCollection.removeTag(tag.id)\">{{options.texts.removeSymbol}}</span>\n" +
     "    </span>\n" +
     "    <span\n" +
     "      ng-switch-when=\"true\">\n" +
@@ -715,7 +715,7 @@ angular.module("jsTag").run(["$templateCache", function($templateCache) {
     "    focus-me=\"isThereAnActiveTag\"\n" +
     "    ng-keydown=\"tagsInputService.onActiveTagKeydown(inputService, {$event: $event})\"\n" +
     "    ng-blur=\"tagsInputService.onActiveTagBlur()\" />\n" +
-    "</div>"
+    "</div>\n"
   );
 
   $templateCache.put("jsTag/source/templates/typeahead/js-tag.html",
@@ -727,14 +727,14 @@ angular.module("jsTag").run(["$templateCache", function($templateCache) {
     "    ng-switch=\"tagsCollection.isTagEdited(tag)\">\n" +
     "    <span\n" +
     "      ng-switch-when=\"false\"\n" +
-    "      class=\"jt-tag active-{{tagsCollection.isTagActive(this.tag)}}\">\n" +
+    "      class=\"jt-tag active-{{tagsCollection.isTagActive(tag)}}\">\n" +
     "      <span\n" +
     "        class=\"value\"\n" +
-    "        ng-click=\"tagsInputService.tagClicked(this.tag)\"\n" +
-    "        ng-dblclick=\"tagsInputService.tagDblClicked(this.tag)\">\n" +
+    "        ng-click=\"tagsInputService.tagClicked(tag)\"\n" +
+    "        ng-dblclick=\"tagsInputService.tagDblClicked(tag)\">\n" +
     "        {{tag.value}}\n" +
     "      </span>\n" +
-    "      <span class=\"remove-button\" ng-click=\"tagsCollection.removeTag(this.tag.id)\">{{options.texts.removeSymbol}}</span>\n" +
+    "      <span class=\"remove-button\" ng-click=\"tagsCollection.removeTag(tag.id)\">{{options.texts.removeSymbol}}</span>\n" +
     "    </span>\n" +
     "    <span\n" +
     "      ng-switch-when=\"true\">\n" +
@@ -770,7 +770,7 @@ angular.module("jsTag").run(["$templateCache", function($templateCache) {
     "    focus-me=\"isThereAnActiveTag\"\n" +
     "    ng-keydown=\"tagsInputService.onActiveTagKeydown(inputService, {$event: $event})\"\n" +
     "    ng-blur=\"tagsInputService.onActiveTagBlur()\" />\n" +
-    "</div>"
+    "</div>\n"
   );
 
 }]);

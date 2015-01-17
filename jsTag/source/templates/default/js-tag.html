@@ -6,14 +6,14 @@
     ng-switch="tagsCollection.isTagEdited(tag)">
     <span
       ng-switch-when="false"
-      class="jt-tag active-{{tagsCollection.isTagActive(this.tag)}}">
+      class="jt-tag active-{{tagsCollection.isTagActive(tag)}}">
       <span
         class="value"
-        ng-click="tagsInputService.tagClicked(this.tag)"
-        ng-dblclick="tagsInputService.tagDblClicked(this.tag)">
+        ng-click="tagsInputService.tagClicked(tag)"
+        ng-dblclick="tagsInputService.tagDblClicked(tag)">
         {{tag.value}}
       </span>
-      <span class="remove-button" ng-click="tagsCollection.removeTag(this.tag.id)">{{options.texts.removeSymbol}}</span>
+      <span class="remove-button" ng-click="tagsCollection.removeTag(tag.id)">{{options.texts.removeSymbol}}</span>
     </span>
     <span
       ng-switch-when="true">

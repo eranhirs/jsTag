@@ -2,7 +2,7 @@
 * jsTag JavaScript Library - Editing tags based on angularJS 
 * Git: https://github.com/eranhirs/jsTag/tree/master
 * License: MIT (http://www.opensource.org/licenses/mit-license.php)
-* Compiled At: 12/16/2014 11:50
+* Compiled At: 01/17/2015 15:01
 **************************************************/
 'use strict';
 var jsTag = angular.module('jsTag', []);
@@ -260,7 +260,17 @@ jsTag.factory('InputService', ['$filter', function($filter) {
   // Handles an input of a new tag keydown
   InputService.prototype.onKeydown = function(inputService, tagsCollection, options) {
     var e = options.$event;
+    var $element = angular.element(e.currentTarget);
     var keycode = e.which;
+    // In order to know how to handle a breakCode or a backspace, we must know if the typeahead
+    // input value is empty or not. e.g. if user hits backspace and typeahead input is not empty
+    // then we have nothing to do as user si not trying to remove a tag but simply tries to
+    // delete some character in typeahead's input.
+    // To know the value in the typeahead input, we can't use `this.input` because when
+    // typeahead is in uneditable mode, the model (i.e. `this.input`) is not updated and is set
+    // to undefined. So we have to fetch the value directly from the typeahead input element.
+    var value = ($element.typeahead !== undefined) ? $element.typeahead('val') : this.input;
+    var valueIsEmpty = (value === null || value === undefined || value === "");
 
     // Check if should break by breakcodes
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
@@ -268,8 +278,13 @@ jsTag.factory('InputService', ['$filter', function($filter) {
       inputService.breakCodeHit(tagsCollection, this.options);
 
       // Trigger breakcodeHit event allowing extensions (used in twitter's typeahead directive)
-      var $element = angular.element(e.currentTarget);
       $element.trigger('jsTag:breakcodeHit');
+
+      // Do not trigger form submit if value is not empty.
+      if (!valueIsEmpty) {
+        e.preventDefault();
+      }
+
     } else {
       switch (keycode) {
         case 9:	// Tab
@@ -277,7 +292,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
           break;
         case 37: // Left arrow
         case 8: // Backspace
-          if (inputService.input === "") {
+          if (valueIsEmpty) {
             // TODO: Call removing tag event instead of calling a method, easier to customize
             tagsCollection.setLastTagActive();
           }
@@ -636,6 +651,13 @@ jsTag.directive('jsTagTypeahead', function () {
     link: function (scope, element, attrs, ngModel) {
       
       element.bind('jsTag:breakcodeHit', function(event) {
+
+        /* Do not clear typeahead input if typeahead option 'editable' is set to false
+         * so custom tags are not allowed and breakcode hit shouldn't trigger any change. */
+        if (scope.$eval(attrs.options).editable === false) {
+          return;
+        }
+
         // Tell typeahead to remove the value (after it was also removed in input)
         $(event.currentTarget).typeahead('val', '');
       });
@@ -643,6 +665,7 @@ jsTag.directive('jsTagTypeahead', function () {
     }
   };
 });
+
 angular.module("jsTag").run(["$templateCache", function($templateCache) {
 
   $templateCache.put("jsTag/source/templates/default/js-tag.html",

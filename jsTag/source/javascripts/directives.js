@@ -131,6 +131,13 @@ jsTag.directive('jsTagTypeahead', function () {
     link: function (scope, element, attrs, ngModel) {
       
       element.bind('jsTag:breakcodeHit', function(event) {
+
+        /* Do not clear typeahead input if typeahead option 'editable' is set to false
+         * so custom tags are not allowed and breakcode hit shouldn't trigger any change. */
+        if (scope.$eval(attrs.options).editable === false) {
+          return;
+        }
+
         // Tell typeahead to remove the value (after it was also removed in input)
         $(event.currentTarget).typeahead('val', '');
       });

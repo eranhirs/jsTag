@@ -11,7 +11,10 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
       var defaultTagValue = defaultTags[defaultTagKey];
       this.addTag(defaultTagValue);
     }
-    
+   
+    this._onAddListenerList = [];
+    this._onRemoveListenerList = [];
+ 
     this.unsetActiveTags();
     this.unsetEditedTag();
   }
@@ -27,12 +30,27 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
   
     var newTag = new JSTag(value, tagIndex);
     this.tags[tagIndex] = newTag;
+    angular.forEach(this._onAddListenerList, function (callback) {
+      callback(newTag);
+    });
   }
   
   // Removes the received tag
   JSTagsCollection.prototype.removeTag = function(tagIndex) {
+    var tag = this.tags[tagIndex];
     delete this.tags[tagIndex];
+    angular.forEach(this._onRemoveListenerList, function (callback) {
+      callback(tag);
+    });
   }
+
+  JSTagsCollection.prototype.onAdd = function onAdd(callback) {
+    this._onAddListenerList.push(callback);
+  };
+
+  JSTagsCollection.prototype.onRemove = function onRemove(callback) {
+    this._onRemoveListenerList.push(callback);
+  };
 
   // Returns the number of tags in collection
   JSTagsCollection.prototype.getNumberOfTags = function() {

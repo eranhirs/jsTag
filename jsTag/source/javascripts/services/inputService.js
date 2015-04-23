@@ -68,6 +68,13 @@ jsTag.factory('InputService', ['$filter', function($filter) {
     }
   }
 
+
+  InputService.prototype.onBlur = function(tagsCollection) {
+    if (this.input !== "") {
+      this.breakCodeHit(tagsCollection, this.options);
+    }
+  }
+
   // *** Methods *** //
 
   InputService.prototype.resetInput = function() {

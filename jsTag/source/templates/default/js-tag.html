@@ -37,6 +37,7 @@
     ng-hide="isThereAnEditedTag"
     ng-keydown="inputService.onKeydown(inputService, tagsCollection, {$event: $event})"
     placeholder="{{options.texts.inputPlaceHolder}}"
+    ng-blur="inputService.onBlur(tagsCollection)"
     auto-grow
   />
   <input

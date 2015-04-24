@@ -101,6 +101,11 @@ jsTag.factory('InputService', ['$filter', function($filter) {
 
       // Split value by spliter (usually ,)
       var values = originalValue.split(options.splitter);
+      for (var i = 0; i < values.length; i++) {
+        if (!values[i]) {
+          values.splice(i, 1);
+        }
+      }
 
       // Add tags to collection
       for (var key in values) {

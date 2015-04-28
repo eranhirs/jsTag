@@ -2,7 +2,7 @@
 * jsTag JavaScript Library - Editing tags based on angularJS 
 * Git: https://github.com/eranhirs/jsTag/tree/master
 * License: MIT (http://www.opensource.org/licenses/mit-license.php)
-* Compiled At: 04/24/2015 11:49
+* Compiled At: 04/28/2015 07:19
 **************************************************/
 'use strict';
 var jsTag = angular.module('jsTag', []);
@@ -343,9 +343,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
 
 
   InputService.prototype.onBlur = function(tagsCollection) {
-    if (this.input !== "") {
-      this.breakCodeHit(tagsCollection, this.options);
-    }
+    this.breakCodeHit(tagsCollection, this.options);
   }
 
   // *** Methods *** //

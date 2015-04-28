@@ -17,30 +17,6 @@ Usage
 -----
 See demo for usage.
 
-Customization
------
-jsTag is very customizable, just pass in an object with your customization into the directive.
-```HTML
-<js-tag js-tag-options="jsTagOptions"></js-tag>
-```
-
-The default options object looks like this but any parameters passed in replaces the original.
-```js
-{
-  'edit': true,
-  'defaultTags': [],
-  'breakCodes': [
-    13, // Return
-    44 // Comma
-  ],
-  'splitter': ',',
-  'texts': {
-    'inputPlaceHolder': "Input text",
-    'removeSymbol': String.fromCharCode(215)
-  }
-}
-```
-
 About
 -----
 jsTag is an open source project for editing tags (aka tokenizer) based on pure angularJS.

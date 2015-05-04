@@ -102,6 +102,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
       for (var i = 0; i < values.length; i++) {
         if (!values[i]) {
           values.splice(i, 1);
+          i--;
         }
       }
 

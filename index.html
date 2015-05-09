@@ -6,28 +6,28 @@
 
     <!-- Boootstrap -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-    
+
     <!-- Angular.js script -->
     <script src="assets/angular.min.js"></script>
-    
+
     <!-- typeahead.js -->
     <script src="assets/angular-typeahead.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.2/typeahead.bundle.min.js"></script>
-    
+
     <!-- jsTag javascript file -->
     <script src="assets/jsTag.min.js"></script>
-    
+
     <!-- index JS -->
     <script src="assets/index.js"></script>
 
     <!-- ** Stylesheets ** -->
 
     <!-- fontawesome -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"></link>		
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"></link>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"></link>
-    
+
     <!-- jsTag CSS -->
     <link rel="stylesheet" href="assets/jsTag.css"></link>
 
@@ -65,7 +65,7 @@
             </li>
           </ul>
         </div><!-- /.navbar-collapse -->
-      
+
       </div>
     </header>
     <header class="page-header bs-header">
@@ -74,7 +74,7 @@
         <p>Javascript Tags project based on AngularJS</p>
       </div>
     </header>
-    <div class="container">	
+    <div class="container">
       <div class="row" id="mainSection">
         <div class="col-md-2">
           <div class="bs-sidebar" id="sidebar" data-spy="affix" data-offset-top="205">
@@ -191,6 +191,29 @@
                 </pre>
               </div>
             </div>
+            <h3>Customize using jsTagOption</h3>
+            There are several ways to configure the behaviour of jsTag. The default options object looks like this but any parameters passed in replaces the original.
+            <div class="example">
+              <div class="highlight">
+                <span class="">JSON</span>
+                <pre>
+                  <code class="html">{
+  <span class="s2"><span class="pl-pds">'</span>edit<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="kc">true</span>,
+  <span class="s2"><span class="pl-pds">'</span>defaultTags<span class="pl-pds">'</span></span><span class="pl-k">:</span> [],
+  <span class="s2"><span class="pl-pds">'</span>breakCodes<span class="pl-pds">'</span></span><span class="pl-k">:</span> [
+    <span class="kc">13</span>, <span class="pl-c">// Return</span>
+    <span class="kc">44</span> <span class="pl-c">// Comma</span>
+  ],
+  <span class="s2"><span class="pl-pds">'</span>splitter<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="s2"><span class="pl-pds">'</span>,<span class="pl-pds">'</span></span>,
+  <span class="s2"><span class="pl-pds">'</span>texts<span class="pl-pds">'</span></span><span class="pl-k">:</span> {
+    <span class="s2"><span class="pl-pds">'</span>inputPlaceHolder<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="s2"><span class="pl-pds">"</span>Input text<span class="pl-pds">"</span></span>,
+    <span class="s2"><span class="pl-pds">'</span>removeSymbol<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="kc">String</span>.<span class="pl-c1">fromCharCode</span>(<span class="pl-c1">215</span>)
+  }
+}
+                  </code>
+                </pre>
+              </div>
+            </div>
             <h3>Non-editable</h3>
             It is simple to cancel the edit feature if needed:
             <div class="bs-example">
@@ -236,7 +259,7 @@
   Number of tags: {{tags.getNumberOfTags()}}
 <span class="nt">&lt;/div&gt;</span>
                   </code>
-                </pre>							
+                </pre>
                 <span class="example-lang">Javascript</span>
                 <pre>
                   <code class="javascript"><span class="nx">demoApp</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">&#39;MoreControlController&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;$scope&#39;</span><span class="p">,</span> <span class="s1">&#39;JSTagsCollection&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">JSTagsCollection</span><span class="p">)</span> <span class="p">{</span>
@@ -275,7 +298,7 @@
   Number of tags: {{tags.getNumberOfTags()}}
 <span class="nt">&lt;/div&gt;</span>
                 </code>
-              </pre>							
+              </pre>
               <span class="example-lang">Javascript</span>
               <pre>
                 <code class="javascript"><span class="nx">demoApp</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">&#39;TypeaheadController&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;$scope&#39;</span><span class="p">,</span> <span class="s1">&#39;JSTagsCollection&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">JSTagsCollection</span><span class="p">)</span> <span class="p">{</span>
@@ -286,13 +309,13 @@
   <span class="nx">$scope</span><span class="p">.</span><span class="nx">jsTagOptions</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;tags&#39;</span><span class="o">:</span> <span class="nx">$scope</span><span class="p">.</span><span class="nx">tags</span>
   <span class="p">};</span>
-  
+
   <span class="c1">// **** Typeahead code **** //</span>
-  
+
   <span class="c1">// Build suggestions array</span>
   <span class="kd">var</span> <span class="nx">suggestions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;jsTag&#39;</span><span class="p">,</span> <span class="s1">&#39;c#&#39;</span><span class="p">,</span> <span class="s1">&#39;java&#39;</span><span class="p">,</span> <span class="s1">&#39;javascript&#39;</span><span class="p">,</span> <span class="s1">&#39;jquery&#39;</span><span class="p">,</span> <span class="s1">&#39;android&#39;</span> <span class="p">,</span> <span class="s1">&#39;php&#39;</span><span class="p">,</span> <span class="s1">&#39;c++&#39;</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;ios&#39;</span><span class="p">,</span> <span class="s1">&#39;mysql&#39;</span><span class="p">,</span> <span class="s1">&#39;iphone&#39;</span><span class="p">,</span> <span class="s1">&#39;sql&#39;</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="s1">&#39;css&#39;</span><span class="p">,</span> <span class="s1">&#39;objective-c&#39;</span><span class="p">,</span> <span class="s1">&#39;ruby-on-rails&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;sql-server&#39;</span><span class="p">,</span> <span class="s1">&#39;ajax&#39;</span><span class="p">,</span> <span class="s1">&#39;xml&#39;</span><span class="p">,</span> <span class="s1">&#39;.net&#39;</span><span class="p">,</span> <span class="s1">&#39;ruby&#39;</span><span class="p">,</span> <span class="s1">&#39;regex&#39;</span><span class="p">,</span> <span class="s1">&#39;database&#39;</span><span class="p">,</span> <span class="s1">&#39;vb.net&#39;</span><span class="p">,</span> <span class="s1">&#39;arrays&#39;</span><span class="p">,</span> <span class="s1">&#39;eclipse&#39;</span><span class="p">,</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="s1">&#39;django&#39;</span><span class="p">,</span> <span class="s1">&#39;linux&#39;</span><span class="p">,</span> <span class="s1">&#39;xcode&#39;</span><span class="p">,</span> <span class="s1">&#39;windows&#39;</span><span class="p">,</span> <span class="s1">&#39;html5&#39;</span><span class="p">,</span> <span class="s1">&#39;winforms&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;wcf&#39;</span><span class="p">,</span> <span class="s1">&#39;visual-studio-2010&#39;</span><span class="p">,</span> <span class="s1">&#39;forms&#39;</span><span class="p">,</span> <span class="s1">&#39;performance&#39;</span><span class="p">,</span> <span class="s1">&#39;excel&#39;</span><span class="p">,</span> <span class="s1">&#39;spring&#39;</span><span class="p">,</span> <span class="s1">&#39;node.js&#39;</span><span class="p">,</span> <span class="s1">&#39;git&#39;</span><span class="p">,</span> <span class="s1">&#39;apache&#39;</span><span class="p">,</span> <span class="s1">&#39;entity-framework&#39;</span><span class="p">,</span> <span class="s1">&#39;asp.net&#39;</span><span class="p">,</span> <span class="s1">&#39;web-services&#39;</span><span class="p">,</span> <span class="s1">&#39;linq&#39;</span><span class="p">,</span> <span class="s1">&#39;perl&#39;</span><span class="p">,</span> <span class="s1">&#39;oracle&#39;</span><span class="p">,</span> <span class="s1">&#39;action-script&#39;</span><span class="p">,</span> <span class="s1">&#39;wordpress&#39;</span><span class="p">,</span> <span class="s1">&#39;delphi&#39;</span><span class="p">,</span> <span class="s1">&#39;jquery-ui&#39;</span><span class="p">,</span> <span class="s1">&#39;tsql&#39;</span><span class="p">,</span> <span class="s1">&#39;mongodb&#39;</span><span class="p">,</span> <span class="s1">&#39;neo4j&#39;</span><span class="p">,</span> <span class="s1">&#39;angularJS&#39;</span><span class="p">,</span> <span class="s1">&#39;unit-testing&#39;</span><span class="p">,</span> <span class="s1">&#39;postgresql&#39;</span><span class="p">,</span> <span class="s1">&#39;scala&#39;</span><span class="p">,</span> <span class="s1">&#39;xaml&#39;</span><span class="p">,</span> <span class="s1">&#39;http&#39;</span><span class="p">,</span> <span class="s1">&#39;validation&#39;</span><span class="p">,</span> <span class="s1">&#39;rest&#39;</span><span class="p">,</span> <span class="s1">&#39;bash&#39;</span><span class="p">,</span> <span class="s1">&#39;django&#39;</span><span class="p">,</span> <span class="s1">&#39;silverlight&#39;</span><span class="p">,</span> <span class="s1">&#39;cake-php&#39;</span><span class="p">,</span> <span class="s1">&#39;elgg&#39;</span><span class="p">,</span> <span class="s1">&#39;oracle&#39;</span><span class="p">,</span> <span class="s1">&#39;cocoa&#39;</span><span class="p">,</span> <span class="s1">&#39;swing&#39;</span><span class="p">,</span> <span class="s1">&#39;mocha&#39;</span><span class="p">,</span> <span class="s1">&#39;amazon-web-services&#39;</span><span class="p">];</span>
   <span class="nx">suggestions</span> <span class="o">=</span> <span class="nx">suggestions</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="p">{</span> <span class="s2">&quot;suggestion&quot;</span><span class="o">:</span> <span class="nx">item</span> <span class="p">}</span> <span class="p">});</span>
-  
+
   <span class="c1">// Instantiate the bloodhound suggestion engine</span>
   <span class="kd">var</span> <span class="nx">suggestions</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Bloodhound</span><span class="p">({</span>
     <span class="nx">datumTokenizer</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">Bloodhound</span><span class="p">.</span><span class="nx">tokenizers</span><span class="p">.</span><span class="nx">whitespace</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">suggestion</span><span class="p">);</span> <span class="p">},</span>
@@ -308,7 +331,7 @@
     <span class="nx">displayKey</span><span class="o">:</span> <span class="s1">&#39;suggestion&#39;</span><span class="p">,</span>
     <span class="nx">source</span><span class="o">:</span> <span class="nx">suggestions</span><span class="p">.</span><span class="nx">ttAdapter</span><span class="p">()</span>
   <span class="p">};</span>
-  
+
   <span class="c1">// Typeahead options object</span>
   <span class="nx">$scope</span><span class="p">.</span><span class="nx">exampleOptions</span> <span class="o">=</span> <span class="p">{</span>
     <span class="nx">hint</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>

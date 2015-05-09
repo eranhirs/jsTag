@@ -99,6 +99,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
 
       // Split value by spliter (usually ,)
       var values = originalValue.split(options.splitter);
+      // Remove empty string objects from the values
       for (var i = 0; i < values.length; i++) {
         if (!values[i]) {
           values.splice(i, 1);

@@ -38,6 +38,7 @@
     ng-model="inputService.input"
     ng-hide="isThereAnEditedTag"
     ng-keydown="inputService.onKeydown(inputService, tagsCollection, {$event: $event})"
+    ng-blur="inputService.onBlur(tagsCollection)"
     placeholder="{{options.texts.inputPlaceHolder}}"
     auto-grow
     options="exampleOptions" datasets="exampleData"

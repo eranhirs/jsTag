@@ -17,7 +17,6 @@ Usage
 -----
 See demo for usage.
 
-
 About
 -----
 jsTag is an open source project for editing tags (aka tokenizer) based on pure angularJS.

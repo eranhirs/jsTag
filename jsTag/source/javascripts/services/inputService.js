@@ -31,9 +31,9 @@ jsTag.factory('InputService', ['$filter', function($filter) {
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
 
       inputService.breakCodeHit(tagsCollection, this.options);
-
+      
       // Trigger breakcodeHit event allowing extensions (used in twitter's typeahead directive)
-      $element.trigger('jsTag:breakcodeHit');
+      $element.triggerHandler('jsTag:breakcodeHit');
 
       // Do not trigger form submit if value is not empty.
       if (!valueIsEmpty) {

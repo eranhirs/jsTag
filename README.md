@@ -13,15 +13,16 @@ Demo
 ----
 Demo available [here](http://eranhirs.github.io/jsTag/ "jsTag Demo").
 
-Why jsTag?
-----------
-* Pure AngularJS
-* Highly customizable for your own needs (by following Dependency Injection principles)
-* Autocomplete is implemented by external source
-
 How to use?
 -----------
 See demo for code examples.
+
+Why jsTag?
+----------
+* Pure AngularJS
+* Contains all common features
+* Highly customizable for your own needs (by following Dependency Injection principles)
+* Autocomplete is implemented by external source
 
 Contributing
 ------------

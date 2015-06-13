@@ -1,11 +1,6 @@
 jsTag
 =====
-jsTag is an AngularJS input tags project.
-Once the user types his text and presses ENTER, the text is enclosed in a pill button. The library is full of additional features and customization options. The code follows Dependency Injection principles to allow high individual customization.
-
-Demo
-----
-Available [here](http://eranhirs.github.io/jsTag/ "jsTag Demo").
+jsTag is an AngularJS input tags project. Demo available [here](http://eranhirs.github.io/jsTag/ "jsTag Demo").
 
 Features
 --------
@@ -13,6 +8,10 @@ Features
  * Editing tags
  * Removing tags
  * Autocomplete (Integration with [Twitter's typeahead](http://twitter.github.io/typeahead.js/ "Twitter's typeahead github"))
+
+Demo
+----
+Demo available [here](http://eranhirs.github.io/jsTag/ "jsTag Demo").
 
 Why jsTag?
 ----------

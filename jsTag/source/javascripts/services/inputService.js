@@ -24,14 +24,20 @@ jsTag.factory('InputService', ['$filter', function($filter) {
     // To know the value in the typeahead input, we can't use `this.input` because when
     // typeahead is in uneditable mode, the model (i.e. `this.input`) is not updated and is set
     // to undefined. So we have to fetch the value directly from the typeahead input element.
-    var value = ($element.typeahead !== undefined) ? $element.typeahead('val') : this.input;
+    //
+    // We have to test this.input first, because $element.typeahead is a function and can be set
+    // even if we are not in the typeahead mode.
+    // So in this case, the value is always null and the preventDefault is never fired
+    // This cause the form to always submit after hitting the Enter key.
+    //var value = ($element.typeahead !== undefined) ? $element.typeahead('val') : this.input;
+    var value = this.input || (($element.typeahead !== undefined) ? $element.typeahead('val') : undefined) ;
     var valueIsEmpty = (value === null || value === undefined || value === "");
 
     // Check if should break by breakcodes
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
 
       inputService.breakCodeHit(tagsCollection, this.options);
-      
+
       // Trigger breakcodeHit event allowing extensions (used in twitter's typeahead directive)
       $element.triggerHandler('jsTag:breakcodeHit');
 
@@ -55,7 +61,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
           break;
       }
     }
-  }
+  };
 
   // Handles an input of an edited tag keydown
   InputService.prototype.tagInputKeydown = function(tagsCollection, options) {
@@ -66,12 +72,12 @@ jsTag.factory('InputService', ['$filter', function($filter) {
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
       this.breakCodeHitOnEdit(tagsCollection, options);
     }
-  }
+  };
 
 
   InputService.prototype.onBlur = function(tagsCollection) {
     this.breakCodeHit(tagsCollection, this.options);
-  }
+  };
 
   // *** Methods *** //
 
@@ -79,16 +85,25 @@ jsTag.factory('InputService', ['$filter', function($filter) {
     var value = this.input;
     this.input = "";
     return value;
-  }
+  };
 
   // Sets focus on input
   InputService.prototype.focusInput = function() {
     this.isWaitingForInput = true;
-  }
+  };
 
   // breakCodeHit is called when finished creating tag
   InputService.prototype.breakCodeHit = function(tagsCollection, options) {
     if (this.input !== "") {
+      if(tagsCollection._valueFormatter) {
+        this.input = tagsCollection._valueFormatter(this.input);
+      }
+      if(tagsCollection._valueValidator) {
+        if(!tagsCollection._valueValidator(this.input)) {
+          return;
+        };
+      }
+
       var originalValue = this.resetInput();
 
       // Input is an object when using typeahead (the key is chosen by the user)
@@ -114,7 +129,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
         tagsCollection.addTag(value);
       }
     }
-  }
+  };
 
   // breakCodeHit is called when finished editing tag
   InputService.prototype.breakCodeHitOnEdit = function(tagsCollection, options) {

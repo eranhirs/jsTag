@@ -2,7 +2,7 @@
 * jsTag JavaScript Library - Editing tags based on angularJS 
 * Git: https://github.com/eranhirs/jsTag/tree/master
 * License: MIT (http://www.opensource.org/licenses/mit-license.php)
-* Compiled At: 06/14/2015 01:40
+* Compiled At: 11/12/2015 12:45
 **************************************************/
 'use strict';
 var jsTag = angular.module('jsTag', []);
@@ -82,11 +82,20 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
 
     this.unsetActiveTags();
     this.unsetEditedTag();
+
+    this._valueFormatter = null;
+    this._valueValidator = null;
   }
 
   // *** Methods *** //
 
   // *** Object manipulation methods *** //
+  JSTagsCollection.prototype.setValueValidator = function(validator) {
+    this._valueValidator = validator;
+  };
+  JSTagsCollection.prototype.setValueFormatter = function(formatter) {
+    this._valueFormatter = formatter;
+  };
 
   // Adds a tag with received value
   JSTagsCollection.prototype.addTag = function(value) {
@@ -98,7 +107,7 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
     angular.forEach(this._onAddListenerList, function (callback) {
       callback(newTag);
     });
-  }
+  };
 
   // Removes the received tag
   JSTagsCollection.prototype.removeTag = function(tagIndex) {
@@ -107,7 +116,7 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
     angular.forEach(this._onRemoveListenerList, function (callback) {
       callback(tag);
     });
-  }
+  };
 
   JSTagsCollection.prototype.onAdd = function onAdd(callback) {
     this._onAddListenerList.push(callback);
@@ -120,7 +129,7 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
   // Returns the number of tags in collection
   JSTagsCollection.prototype.getNumberOfTags = function() {
     return getNumberOfProperties(this.tags);
-  }
+  };
 
   // Returns an array with all values of the tags
   JSTagsCollection.prototype.getTagValues = function() {
@@ -129,7 +138,7 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
       tagValues.push(this.tags[tag].value);
     }
     return tagValues;
-  }
+  };
 
   // Returns the previous tag before the tag received as input
   // Returns same tag if it's the first
@@ -141,7 +150,7 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
     } else {
       return getPreviousProperty(this.tags, tag.id);
     }
-  }
+  };
 
   // Returns the next tag after  the tag received as input
   // Returns same tag if it's the last
@@ -153,7 +162,7 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
     } else {
       return getNextProperty(this.tags, tag.id);
     }
-  }
+  };
 
   // *** Active methods *** //
 
@@ -229,7 +238,7 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
     }
 
     this._editedTag = null;
-  }
+  };
 
   return JSTagsCollection;
 }]);
@@ -297,14 +306,20 @@ jsTag.factory('InputService', ['$filter', function($filter) {
     // To know the value in the typeahead input, we can't use `this.input` because when
     // typeahead is in uneditable mode, the model (i.e. `this.input`) is not updated and is set
     // to undefined. So we have to fetch the value directly from the typeahead input element.
-    var value = ($element.typeahead !== undefined) ? $element.typeahead('val') : this.input;
+    //
+    // We have to test this.input first, because $element.typeahead is a function and can be set
+    // even if we are not in the typeahead mode.
+    // So in this case, the value is always null and the preventDefault is never fired
+    // This cause the form to always submit after hitting the Enter key.
+    //var value = ($element.typeahead !== undefined) ? $element.typeahead('val') : this.input;
+    var value = this.input || (($element.typeahead !== undefined) ? $element.typeahead('val') : undefined) ;
     var valueIsEmpty = (value === null || value === undefined || value === "");
 
     // Check if should break by breakcodes
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
 
       inputService.breakCodeHit(tagsCollection, this.options);
-      
+
       // Trigger breakcodeHit event allowing extensions (used in twitter's typeahead directive)
       $element.triggerHandler('jsTag:breakcodeHit');
 
@@ -328,7 +343,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
           break;
       }
     }
-  }
+  };
 
   // Handles an input of an edited tag keydown
   InputService.prototype.tagInputKeydown = function(tagsCollection, options) {
@@ -339,12 +354,12 @@ jsTag.factory('InputService', ['$filter', function($filter) {
     if ($filter("inArray")(keycode, this.options.breakCodes) !== false) {
       this.breakCodeHitOnEdit(tagsCollection, options);
     }
-  }
+  };
 
 
   InputService.prototype.onBlur = function(tagsCollection) {
     this.breakCodeHit(tagsCollection, this.options);
-  }
+  };
 
   // *** Methods *** //
 
@@ -352,16 +367,25 @@ jsTag.factory('InputService', ['$filter', function($filter) {
     var value = this.input;
     this.input = "";
     return value;
-  }
+  };
 
   // Sets focus on input
   InputService.prototype.focusInput = function() {
     this.isWaitingForInput = true;
-  }
+  };
 
   // breakCodeHit is called when finished creating tag
   InputService.prototype.breakCodeHit = function(tagsCollection, options) {
     if (this.input !== "") {
+      if(tagsCollection._valueFormatter) {
+        this.input = tagsCollection._valueFormatter(this.input);
+      }
+      if(tagsCollection._valueValidator) {
+        if(!tagsCollection._valueValidator(this.input)) {
+          return;
+        };
+      }
+
       var originalValue = this.resetInput();
 
       // Input is an object when using typeahead (the key is chosen by the user)
@@ -387,7 +411,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
         tagsCollection.addTag(value);
       }
     }
-  }
+  };
 
   // breakCodeHit is called when finished editing tag
   InputService.prototype.breakCodeHitOnEdit = function(tagsCollection, options) {
@@ -490,7 +514,7 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
           break;
       }
     }
-  }
+  };
 
   // Jumps when active tag calls blur event.
   // Because the focus is not on the tag's div itself but a fake input,
@@ -504,13 +528,13 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
     if (activeTag !== null) {
       this.tagsCollection.unsetActiveTag(activeTag);
     }
-  }
+  };
 
   // Jumps when an edited tag calls blur event
   TagsHandler.prototype.onEditTagBlur = function(tagsCollection, inputService) {
     tagsCollection.unsetEditedTag();
     this.isWaitingForInput = true;
-  }
+  };
 
   return TagsHandler;
 }]);
@@ -526,32 +550,32 @@ jsTag.controller('JSTagMainCtrl', ['$attrs', '$scope', 'InputService', 'TagsInpu
   } catch(e) {
     console.log("jsTag Error: Invalid user options, using defaults only");
   }
-  
+
   // Copy so we don't override original values
   var options = angular.copy(jsTagDefaults);
-  
+
   // Use user defined options
   if (userOptions !== undefined) {
     userOptions.texts = angular.extend(options.texts, userOptions.texts || {});
     angular.extend(options, userOptions);
   }
-  
+
   $scope.options = options;
-  
+
   // Export handlers to view
   $scope.tagsInputService = new TagsInputService($scope.options);
   $scope.inputService = new InputService($scope.options);
-  
+
   // Export tagsCollection separately since it's used alot
   var tagsCollection = $scope.tagsInputService.tagsCollection;
   $scope.tagsCollection = tagsCollection;
-    
+
   // TODO: Should be inside inside tagsCollection.js
   // On every change to editedTags keep isThereAnEditedTag posted
   $scope.$watch('tagsCollection._editedTag', function(newValue, oldValue) {
     $scope.isThereAnEditedTag = newValue !== null;
   });
-  
+
   // TODO: Should be inside inside tagsCollection.js
   // On every change to activeTags keep isThereAnActiveTag posted
   $scope.$watchCollection('tagsCollection._activeTags', function(newValue, oldValue) {
@@ -570,7 +594,7 @@ jsTag.directive('jsTag', ['$templateCache', function($templateCache) {
       var mode = $attrs.jsTagMode || "default";
       return 'jsTag/source/templates/' + mode + '/js-tag.html';
     }
-  }
+  };
 }]);
 
 // TODO: Replace this custom directive by a supported angular-js directive for blur
@@ -582,7 +606,7 @@ jsTag.directive('ngBlur', ['$parse', function($parse) {
           // function name into an actual function
           var functionToCall = $parse(attrs.ngBlur);
           elem.bind('blur', function(event) {
-          
+
             // on the blur event, call my function
             scope.$apply(function() {
               functionToCall(scope, {$event:event});
@@ -604,11 +628,11 @@ jsTag.directive('focusMe', ['$parse', '$timeout', function($parse, $timeout) {
       scope.$watch(model, function(value) {
         if (value === true) {
           $timeout(function() {
-            element[0].focus(); 
+            element[0].focus();
           });
         }
       });
-      
+
       // to address @blesh's comment, set attribute value to 'false'
       // on blur event:
       element.bind('blur', function() {
@@ -637,9 +661,9 @@ jsTag.directive('autoGrow', ['$timeout', function($timeout) {
     link: function(scope, element, attr){
       var paddingLeft = element.css('paddingLeft'),
           paddingRight = element.css('paddingRight');
-   
+
       var minWidth = 60;
-   
+
       var $shadow = angular.element('<span></span>').css({
         'position': 'absolute',
         'top': '-10000px',
@@ -649,47 +673,47 @@ jsTag.directive('autoGrow', ['$timeout', function($timeout) {
         'white-space': 'pre'
       });
       element.after($shadow);
-   
+
       var update = function() {
         var val = element.val()
           .replace(/</g, '&lt;')
           .replace(/>/g, '&gt;')
           .replace(/&/g, '&amp;')
         ;
-        
+
         // If empty calculate by placeholder
         if (val !== "") {
           $shadow.html(val);
         } else {
           $shadow.html(element[0].placeholder);
         }
-        
+
         var newWidth = ($shadow[0].offsetWidth + 10) + "px";
         element.css('width', newWidth);
-      }
-   
+      };
+
       var ngModel = element.attr('ng-model');
       if (ngModel) {
         scope.$watch(ngModel, update);
       } else {
         element.bind('keyup keydown', update);
       }
-      
+
       // Update on the first link
       // $timeout is needed because the value of element is updated only after the $digest cycle
       // TODO: Maybe on compile time if we call update we won't need $timeout
       $timeout(update);
     }
-  }
+  };
 }]);
 
 // Small directive for twitter's typeahead
 jsTag.directive('jsTagTypeahead', function () {
   return {
-    restrict: 'A', // Only apply on an attribute or class  
+    restrict: 'A', // Only apply on an attribute or class
     require: '?ngModel',  // The two-way data bound value that is returned by the directive
     link: function (scope, element, attrs, ngModel) {
-      
+
       element.bind('jsTag:breakcodeHit', function(event) {
 
         /* Do not clear typeahead input if typeahead option 'editable' is set to false
@@ -701,7 +725,7 @@ jsTag.directive('jsTagTypeahead', function () {
         // Tell typeahead to remove the value (after it was also removed in input)
         $(event.currentTarget).typeahead('val', '');
       });
-      
+
     }
   };
 });
@@ -735,7 +759,9 @@ angular.module("jsTag").run(["$templateCache", function($templateCache) {
     "\n" +
     "        ng-dblclick=\"tagsInputService.tagDblClicked(tag)\">\r" +
     "\n" +
-    "        {{tag.value}}\r" +
+    "        <span ng-if=\"options.valueTemplate\" ng-include src=\"options.valueTemplate\"></span>\r" +
+    "\n" +
+    "        <span ng-if=\"!options.valueTemplate\">{{tag.value}}</span>\r" +
     "\n" +
     "      </span>\r" +
     "\n" +
@@ -834,7 +860,9 @@ angular.module("jsTag").run(["$templateCache", function($templateCache) {
     "\n" +
     "        ng-dblclick=\"tagsInputService.tagDblClicked(tag)\">\r" +
     "\n" +
-    "        {{tag.value}}\r" +
+    "        <span ng-if=\"options.valueTemplate\" ng-include src=\"options.valueTemplate\"></span>\r" +
+    "\n" +
+    "        <span ng-if=\"!options.valueTemplate\">{{tag.value}}</span>\r" +
     "\n" +
     "      </span>\r" +
     "\n" +

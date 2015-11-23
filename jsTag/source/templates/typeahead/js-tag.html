@@ -11,7 +11,8 @@
         class="value"
         ng-click="tagsInputService.tagClicked(tag)"
         ng-dblclick="tagsInputService.tagDblClicked(tag)">
-        {{tag.value}}
+        <span ng-if="options.valueTemplate" ng-include src="options.valueTemplate"></span>
+        <span ng-if="!options.valueTemplate">{{tag.value}}</span>
       </span>
       <span class="remove-button" ng-click="tagsCollection.removeTag(tag.id)">{{options.texts.removeSymbol}}</span>
     </span>

@@ -84,7 +84,7 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
           break;
       }
     }
-  }
+  };
 
   // Jumps when active tag calls blur event.
   // Because the focus is not on the tag's div itself but a fake input,
@@ -98,13 +98,13 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
     if (activeTag !== null) {
       this.tagsCollection.unsetActiveTag(activeTag);
     }
-  }
+  };
 
   // Jumps when an edited tag calls blur event
   TagsHandler.prototype.onEditTagBlur = function(tagsCollection, inputService) {
     tagsCollection.unsetEditedTag();
     this.isWaitingForInput = true;
-  }
+  };
 
   return TagsHandler;
 }]);
